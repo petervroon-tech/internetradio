@@ -1,0 +1,16 @@
+{
+  "name": "Internet Radio Wereldwijd",
+  "short_name": "Radio",
+  "description": "Wereldwijde Internetradio per continent met live MP3-opname studio en audio telemetrie",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090e1a",
+  "theme_color": "#090e1a",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64 192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

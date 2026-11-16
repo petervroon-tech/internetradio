@@ -1,0 +1,16 @@
+{
+  "app_name": "internetradio",
+  "version": "1.0.0",
+  "build": 1,
+  "timestamp": "2026-11-16T23:27:38.564314+00:00",
+  "git_hash": "4c60f0f",
+  "features": [
+    "🚀 Versie v1.0.0: Officiële release van Internet Radio Wereldwijd met directe online GitHub Pages publicatie en automatische build-synchronisatie.",
+    "🌍 Wereldwijde Radiostations per Continent: Blader door tienduizenden live internetradiostations gecategoriseerd per continent (Europa, Noord-Amerika, Zuid-Amerika, Azië, Afrika, Oceanië) en filter direct op land, genre (Pop, Rock, Nieuws, Jazz, Klassiek, Electronic, Praat/Talk, Ambient) en populariteit.",
+    "🎙️ Live MP3 Opname Studio: Neem met 1 klik direct live muziek, interviews of gepraat op vanuit de audiostream. Converteert automatisch in de browser naar een authentiek, hoogwaardig MP3-bestand (192 / 320 kbps) en biedt direct downloaden en terugluisteren via de ingebouwde opnamebeheerder.",
+    "📊 60 FPS Audio Visualizer & Telemetrie: Vloeiende hardware-versnelde spectrum analyzer met vallende piek-indicatoren, neon oscilloscope golfvorm en realtime stereo VU-meters (L/R dB). Toont live audiocodec, stream-bitrate, buffergezondheid en streamstatus.",
+    "⭐ Favorieten & Slimme Zoekfunctie: Bewaar uw favoriete stations lokaal in uw browser met 1 klik op het sterretje. Razendsnel zoeken op stationsnaam, genre of land met automatische suggesties.",
+    "📱 Universeel Responsief Donker Glas Design: Volgt 100% de 'Smooth, Donker & Nooit Lomp' standaard met afgeronde pillen, donkere glas-esthetiek (glassmorphism), touch-optimalisatie voor smartphones, iPads en laptops/desktops.",
+    "💡 Dynamische Help & Handleiding: Direct toegankelijke Help-modal met ✓ Altijd Actueel badge, direct gesynchroniseerd met version.json na elke GitHub Pages build."
+  ]
+}

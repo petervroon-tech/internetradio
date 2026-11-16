@@ -1,0 +1,52 @@
+name: Deploy Internet Radio naar GitHub Pages
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Repository ophalen
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ⚙️ Python instellen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 🔨 Bouw en update version.json
+        run: |
+          echo "Building Internet Radio release..."
+          python3 build.py --ci --sha "${{ github.sha }}" --build "${{ github.run_number }}"
+          echo "Build output:"
+          ls -lh index.html app.js style.css lame.min.js version.json
+          cat version.json
+
+      - name: 🌐 GitHub Pages configureren
+        uses: actions/configure-pages@v5
+
+      - name: 📦 Upload site artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: 🚀 Publiceren naar GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

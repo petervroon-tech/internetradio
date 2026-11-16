@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#090e1a" />
+  <rect x="8" y="18" width="48" height="34" rx="8" fill="#131d31" stroke="url(#grad)" stroke-width="2" />
+  <circle cx="22" cy="35" r="9" fill="none" stroke="url(#grad)" stroke-width="2.5" />
+  <circle cx="22" cy="35" r="3" fill="#00f2fe" filter="url(#glow)" />
+  <line x1="37" y1="26" x2="49" y2="26" stroke="#4facfe" stroke-width="2" stroke-linecap="round" />
+  <line x1="37" y1="32" x2="47" y2="32" stroke="#4facfe" stroke-width="2" stroke-linecap="round" />
+  <line x1="37" y1="38" x2="49" y2="38" stroke="#4facfe" stroke-width="2" stroke-linecap="round" />
+  <line x1="16" y1="18" x2="34" y2="8" stroke="#00f2fe" stroke-width="2" stroke-linecap="round" />
+  <circle cx="35" cy="7.5" r="2.5" fill="#f43f5e" filter="url(#glow)" />
+</svg>

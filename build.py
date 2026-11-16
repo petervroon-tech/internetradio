@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Internet Radio Build & Release Compiler
-=======================================
-Valideert en assembleert de release-artefacten voor 'internetradio':
+PeterVroon Radio Build & Release Compiler
+=========================================
+Valideert en assembleert de release-artefacten voor 'PeterVroon Radio':
 - Controleert integriteit van index.html, app.js, style.css, lame.min.js
 - Werkt version.json bij met nieuwste build-nummer, git-hash en tijdstempel
 - Garandeert dat de Help-modal direct 100% up-to-date blijft conform AGENTS.md
@@ -15,7 +15,7 @@ import argparse
 import subprocess
 from datetime import datetime, timezone
 
-APP_NAME = "internetradio"
+APP_NAME = "PeterVroon Radio"
 DEFAULT_VERSION = "1.0.0"
 
 def get_git_hash() -> str:

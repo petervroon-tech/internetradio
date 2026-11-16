@@ -1,8 +1,8 @@
-# 📻 Internet Radio Wereldwijd
+# 📻 PeterVroon Radio Wereldwijd
 
 > **Live online applicatie:** [https://petervroon-tech.github.io/internetradio/](https://petervroon-tech.github.io/internetradio/)
 
-Een moderne, vloeiende en donkere webapplicatie om wereldwijd naar duizenden internetradiostations te luisteren per continent, live audio te visualiseren in 60 FPS, en met één klik live muziek of gepraat direct op te nemen en te downloaden als **MP3** (`.mp3`).
+**PeterVroon Radio** is een moderne, vloeiende en donkere webapplicatie om wereldwijd naar duizenden internetradiostations te luisteren per continent, live audio te visualiseren in 60 FPS, en met één klik live muziek of gepraat direct op te nemen en te downloaden als **MP3** (`.mp3`).
 
 Ontworpen en gebouwd volgens de strikte Antigravity richtlijnen in `AGENTS.md` ("Smooth, Donker & Nooit Lomp of Wit Vierkant").
 

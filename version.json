@@ -1,11 +1,11 @@
 {
-  "app_name": "internetradio",
-  "version": "1.0.0",
-  "build": 1,
-  "timestamp": "2026-11-16T23:27:38.564314+00:00",
+  "app_name": "PeterVroon Radio",
+  "version": "1.0.1",
+  "build": 2,
+  "timestamp": "2026-11-16T23:29:56.014973+00:00",
   "git_hash": "4c60f0f",
   "features": [
-    "🚀 Versie v1.0.0: Officiële release van Internet Radio Wereldwijd met directe online GitHub Pages publicatie en automatische build-synchronisatie.",
+    "🚀 Versie v1.0.1: Officiële release van PeterVroon Radio met continenten-explorer, live MP3-opnamestudio en automatische GitHub Pages deployment.",
     "🌍 Wereldwijde Radiostations per Continent: Blader door tienduizenden live internetradiostations gecategoriseerd per continent (Europa, Noord-Amerika, Zuid-Amerika, Azië, Afrika, Oceanië) en filter direct op land, genre (Pop, Rock, Nieuws, Jazz, Klassiek, Electronic, Praat/Talk, Ambient) en populariteit.",
     "🎙️ Live MP3 Opname Studio: Neem met 1 klik direct live muziek, interviews of gepraat op vanuit de audiostream. Converteert automatisch in de browser naar een authentiek, hoogwaardig MP3-bestand (192 / 320 kbps) en biedt direct downloaden en terugluisteren via de ingebouwde opnamebeheerder.",
     "📊 60 FPS Audio Visualizer & Telemetrie: Vloeiende hardware-versnelde spectrum analyzer met vallende piek-indicatoren, neon oscilloscope golfvorm en realtime stereo VU-meters (L/R dB). Toont live audiocodec, stream-bitrate, buffergezondheid en streamstatus.",

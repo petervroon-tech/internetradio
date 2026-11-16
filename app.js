@@ -1,6 +1,6 @@
 /**
- * Internet Radio Wereldwijd - Core Application Engine
- * ====================================================
+ * PeterVroon Radio - Core Application Engine
+ * ==========================================
  * - Radiostations per continent & live zoekfunctie (Radio-Browser API + Curated Fallback)
  * - 60 FPS Audio Visualizer (Spectrum & Golfvorm) & Stereo VU Piekmeters
  * - Live MP3 Opname Studio met ingebouwde pure-JS LAME MP3-encoder (128, 192, 320 kbps)
@@ -1430,7 +1430,7 @@ function stopRecording() {
   const mp3Blob = new Blob(State.mp3DataChunks, { type: "audio/mp3" });
   const stationName = State.currentStation ? State.currentStation.name.replace(/[^a-zA-Z0-9_-]/g, "_") : "Radio";
   const dateStr = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
-  const filename = `${stationName}_Opname_${dateStr}.mp3`;
+  const filename = `PeterVroonRadio_${stationName}_Opname_${dateStr}.mp3`;
   const durationSec = Math.floor((Date.now() - State.recordingStartTime) / 1000);
   const sizeMb = (mp3Blob.size / (1024 * 1024)).toFixed(2);
 
@@ -1438,7 +1438,7 @@ function stopRecording() {
   const recRecord = {
     id: "rec_" + Date.now(),
     filename: filename,
-    station: State.currentStation ? State.currentStation.name : "Internet Radio",
+    station: State.currentStation ? State.currentStation.name : "PeterVroon Radio",
     blob: mp3Blob,
     url: URL.createObjectURL(mp3Blob),
     date: new Date().toLocaleTimeString(),

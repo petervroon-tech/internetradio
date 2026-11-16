@@ -300,9 +300,14 @@ body {
 .filter-row {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .custom-select-wrapper {
-  flex: 1;
+  flex: 1 1 calc(50% - 4px);
+  min-width: 130px;
+}
+.custom-select-wrapper.sort-wrapper {
+  flex: 1 1 100%;
 }
 .pill-select {
   width: 100%;

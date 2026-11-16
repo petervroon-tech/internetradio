@@ -1,10 +1,11 @@
 {
   "app_name": "PeterVroon Radio",
-  "version": "1.0.1",
-  "build": 2,
-  "timestamp": "2026-11-16T23:29:56.014973+00:00",
+  "version": "1.0.2",
+  "build": 3,
+  "timestamp": "2026-11-16T23:46:55.256164+00:00",
   "git_hash": "4c60f0f",
   "features": [
+    "🌏 Geavanceerde Continenten- & Azië Selectie (v1.0.2): Volledige integratie van Azië en alle continenten met een handige continent-dropdown in het filterpaneel, 25+ direct speelbare Aziatische zenders (Japan, Zuid-Korea, India, Taiwan, Singapore, Thailand, Vietnam, Turkije, Indonesië) én realtime parallelle Radio-Browser API-ingest bij het selecteren van een continent of specifiek land.",
     "🚀 Versie v1.0.1: Officiële release van PeterVroon Radio met continenten-explorer, live MP3-opnamestudio en automatische GitHub Pages deployment.",
     "🌍 Wereldwijde Radiostations per Continent: Blader door tienduizenden live internetradiostations gecategoriseerd per continent (Europa, Noord-Amerika, Zuid-Amerika, Azië, Afrika, Oceanië) en filter direct op land, genre (Pop, Rock, Nieuws, Jazz, Klassiek, Electronic, Praat/Talk, Ambient) en populariteit.",
     "🎙️ Live MP3 Opname Studio: Neem met 1 klik direct live muziek, interviews of gepraat op vanuit de audiostream. Converteert automatisch in de browser naar een authentiek, hoogwaardig MP3-bestand (192 / 320 kbps) en biedt direct downloaden en terugluisteren via de ingebouwde opnamebeheerder.",

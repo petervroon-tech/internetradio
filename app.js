@@ -43,8 +43,10 @@ const CONTINENTS = {
     flag: "🇯🇵",
     countries: {
       JP: "Japan", KR: "Zuid-Korea", IN: "India", CN: "China",
-      TW: "Taiwan", ID: "Indonesië", TH: "Thailand", SG: "Singapore",
-      TR: "Turkije", IL: "Israël", AE: "Verenigde Arabische Emiraten", SA: "Saoedi-Arabië"
+      TW: "Taiwan", TH: "Thailand", ID: "Indonesië", SG: "Singapore",
+      VN: "Vietnam", PH: "Filipijnen", MY: "Maleisië", TR: "Turkije",
+      IL: "Israël", AE: "Verenigde Arabische Emiraten", SA: "Saoedi-Arabië",
+      PK: "Pakistan", BD: "Bangladesh", LK: "Sri Lanka", HK: "Hongkong"
     }
   },
   africa: {
@@ -370,7 +372,7 @@ const CURATED_STATIONS = [
     votes: 8300
   },
 
-  // Azië
+  // Azië (Japan, Zuid-Korea, India, Taiwan, Thailand, Singapore, Indonesië, Vietnam, Turkije)
   {
     id: "tokyo-fm-jp",
     name: "Tokyo FM 80.0",
@@ -385,6 +387,110 @@ const CURATED_STATIONS = [
     votes: 16900
   },
   {
+    id: "jazz-sakura-jp",
+    name: "Jazz Sakura Japan",
+    country: "Japan",
+    countrycode: "JP",
+    continent: "asia",
+    tags: "jazz,japanese,chillout,sakura",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3",
+    favicon: "https://asiadreamradio.com/favicon.ico",
+    votes: 15400
+  },
+  {
+    id: "gensokyo-radio-jp",
+    name: "Gensokyo Radio Japan",
+    country: "Japan",
+    countrycode: "JP",
+    continent: "asia",
+    tags: "anime,touhou,soundtrack,gaming",
+    codec: "MP3",
+    bitrate: 192,
+    url: "https://stream.gensokyoradio.net/3",
+    favicon: "https://gensokyoradio.net/favicon.ico",
+    votes: 14800
+  },
+  {
+    id: "j1-gold-jp",
+    name: "J1 Gold J-Pop Classics",
+    country: "Japan",
+    countrycode: "JP",
+    continent: "asia",
+    tags: "jpop,classics,japan,hits",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://jenny.torontocast.com:8062/",
+    favicon: "https://j1fm.tokyo/favicon.ico",
+    votes: 13200
+  },
+  {
+    id: "shonan-beach-jp",
+    name: "Shonan Beach FM 78.9",
+    country: "Japan",
+    countrycode: "JP",
+    continent: "asia",
+    tags: "jazz,lounge,beach,hawaiian",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+    favicon: "https://www.beachfm.co.jp/favicon.ico",
+    votes: 11500
+  },
+  {
+    id: "fm-kahoku-jp",
+    name: "FM Kahoku 78.7 Ishikawa",
+    country: "Japan",
+    countrycode: "JP",
+    continent: "asia",
+    tags: "enka,jpop,talk,community",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://radio.kahoku.net:8000/;",
+    favicon: "https://radio.kahoku.net/favicon.ico",
+    votes: 9300
+  },
+  {
+    id: "big-b-kpop-kr",
+    name: "Big B Radio - K-Pop Seoul",
+    country: "Zuid-Korea",
+    countrycode: "KR",
+    continent: "asia",
+    tags: "kpop,korean,hits,dance",
+    codec: "MP3",
+    bitrate: 128,
+    url: "https://antares.dribbcast.com/proxy/kpop?mp=/s",
+    favicon: "https://bigbradio.net/favicon.ico",
+    votes: 19200
+  },
+  {
+    id: "kbs-world-korea",
+    name: "KBS World Radio Korea",
+    country: "Zuid-Korea",
+    countrycode: "KR",
+    continent: "asia",
+    tags: "kpop,korean,news,talk",
+    codec: "MP3",
+    bitrate: 128,
+    url: "https://world.kbs.co.kr/live/ch1.mp3",
+    favicon: "https://world.kbs.co.kr/favicon.ico",
+    votes: 17800
+  },
+  {
+    id: "oldpop-cafe-kr",
+    name: "Oldpop Cafe Seoul",
+    country: "Zuid-Korea",
+    countrycode: "KR",
+    continent: "asia",
+    tags: "oldies,pop,relax,cafe",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://cast.oldpopcafe.net:7080/",
+    favicon: "https://oldpopcafe.net/favicon.ico",
+    votes: 10400
+  },
+  {
     id: "big-fm-india",
     name: "Big FM 92.7 Bollywood",
     country: "India",
@@ -395,33 +501,176 @@ const CURATED_STATIONS = [
     bitrate: 128,
     url: "https://stream.zeno.fm/f3wvbbqmdg8uv",
     favicon: "https://bigfmindia.com/favicon.ico",
-    votes: 14700
+    votes: 18700
   },
   {
-    id: "kbs-world-korea",
-    name: "KBS World Radio",
-    country: "Zuid-Korea",
-    countrycode: "KR",
+    id: "bollywood-purane-in",
+    name: "Bollywood Gaane Purane",
+    country: "India",
+    countrycode: "IN",
     continent: "asia",
-    tags: "kpop,korean,news,talk",
+    tags: "bollywood,classic,retro,hindi",
     codec: "MP3",
     bitrate: 128,
-    url: "https://world.kbs.co.kr/live/ch1.mp3",
-    favicon: "https://world.kbs.co.kr/favicon.ico",
-    votes: 11800
+    url: "https://stream.zeno.fm/6n6ewddtad0uv",
+    favicon: "https://zeno.fm/favicon.ico",
+    votes: 14200
   },
   {
-    id: "asia-dream-radio",
-    name: "Asia DREAM Radio Japan Hits",
-    country: "Japan",
-    countrycode: "JP",
+    id: "fnf-hindi-in",
+    name: "Fnf.Fm Hindi Top Hits",
+    country: "India",
+    countrycode: "IN",
     continent: "asia",
-    tags: "jpop,anime,soundtrack,hits",
+    tags: "hindi,bollywood,india,pop",
     codec: "MP3",
     bitrate: 128,
-    url: "https://igor.torontocast.com:1025/stream",
-    favicon: "https://asiadreamradio.com/favicon.ico",
+    url: "http://192.99.8.192:5032/;stream",
+    favicon: "http://fnf.fm/favicon.ico",
+    votes: 12800
+  },
+  {
+    id: "my-radio-dj-in",
+    name: "MY RADIO DJ India",
+    country: "India",
+    countrycode: "IN",
+    continent: "asia",
+    tags: "dance,dj,remix,bollywood",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://stream.zeno.fm/84h97t3ewg0uv",
+    favicon: "https://zeno.fm/favicon.ico",
+    votes: 11100
+  },
+  {
+    id: "rti-taiwan-tw",
+    name: "RTI 臺灣之音 (Taiwan)",
+    country: "Taiwan",
+    countrycode: "TW",
+    continent: "asia",
+    tags: "news,chinese,mandarin,taiwan",
+    codec: "AAC",
+    bitrate: 128,
+    url: "https://streamak0138.akamaized.net/live0138lh-mbm9/_definst_/rti3/chunklist.m3u8",
+    favicon: "https://www.rti.org.tw/favicon.ico",
+    votes: 13500
+  },
+  {
+    id: "taipei-radio-tw",
+    name: "臺北廣播電台 FM 93.1",
+    country: "Taiwan",
+    countrycode: "TW",
+    continent: "asia",
+    tags: "mandarin,culture,taipei,music",
+    codec: "AAC",
+    bitrate: 128,
+    url: "https://stream.ginnet.cloud/live0130lo-yfyo/_definst_/fm/playlist.m3u8",
+    favicon: "https://www.radio.gov.taipei/favicon.ico",
+    votes: 11900
+  },
+  {
+    id: "yes-933-sg",
+    name: "YES 933 Mandopop Radio",
+    country: "Singapore",
+    countrycode: "SG",
+    continent: "asia",
+    tags: "mandopop,chinese,hits,singapore",
+    codec: "AAC",
+    bitrate: 128,
+    url: "http://playerservices.streamtheworld.com/api/livestream-redirect/YES933_SC",
+    favicon: "https://www.mewatch.sg/favicon.ico",
+    votes: 16100
+  },
+  {
+    id: "love-972-sg",
+    name: "Love 972 Radio Singapore",
+    country: "Singapore",
+    countrycode: "SG",
+    continent: "asia",
+    tags: "chinese,pop,ballad,singapore",
+    codec: "AAC",
+    bitrate: 128,
+    url: "http://playerservices.streamtheworld.com/api/livestream-redirect/LOVE972_SC",
+    favicon: "https://www.mewatch.sg/favicon.ico",
+    votes: 12900
+  },
+  {
+    id: "iradio-jakarta-id",
+    name: "I-Radio 89.6 FM Jakarta",
+    country: "Indonesië",
+    countrycode: "ID",
+    continent: "asia",
+    tags: "indonesia,pop,jakarta,hits",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://stream.radiojar.com/4ywdgup3bnzuv",
+    favicon: "https://iradiofm.com/favicon.ico",
+    votes: 11700
+  },
+  {
+    id: "suara-giri-id",
+    name: "Suara Giri 98.4 FM",
+    country: "Indonesië",
+    countrycode: "ID",
+    continent: "asia",
+    tags: "dangdut,indonesian,folk,pop",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://streaming.girifm.com:8010/",
+    favicon: "https://girifm.com/favicon.ico",
     votes: 9800
+  },
+  {
+    id: "thai-pbs-th",
+    name: "Thai PBS Radio Bangkok",
+    country: "Thailand",
+    countrycode: "TH",
+    continent: "asia",
+    tags: "thai,news,culture,bangkok",
+    codec: "AAC",
+    bitrate: 128,
+    url: "http://thaipbs-live.cdn.byteark.com/live-en/playlist.m3u8",
+    favicon: "https://www.thaipbs.or.th/favicon.ico",
+    votes: 10900
+  },
+  {
+    id: "rfi-vietnam-vn",
+    name: "RFI Tiếng Việt",
+    country: "Vietnam",
+    countrycode: "VN",
+    continent: "asia",
+    tags: "vietnamese,news,culture,international",
+    codec: "MP3",
+    bitrate: 128,
+    url: "https://rfienvietnamien64k.ice.infomaniak.ch/rfienvietnamien-64.mp3",
+    favicon: "https://www.rfi.fr/favicon.ico",
+    votes: 9200
+  },
+  {
+    id: "virgin-radio-tr",
+    name: "Virgin Radio Türkiye",
+    country: "Turkije",
+    countrycode: "TR",
+    continent: "asia",
+    tags: "hits,pop,rock,istanbul",
+    codec: "AAC",
+    bitrate: 128,
+    url: "http://25503.live.streamtheworld.com:3690/VIRGIN_RADIO_SC",
+    favicon: "https://karnaval.com/favicon.ico",
+    votes: 14100
+  },
+  {
+    id: "radyo-7-tr",
+    name: "Radyo 7 Istanbul",
+    country: "Turkije",
+    countrycode: "TR",
+    continent: "asia",
+    tags: "turkish,folk,pop,news",
+    codec: "MP3",
+    bitrate: 128,
+    url: "http://46.20.3.250/;stream",
+    favicon: "https://www.radyo7.com/favicon.ico",
+    votes: 12300
   },
 
   // Afrika
@@ -551,6 +800,7 @@ const DOM = {
   audio: document.getElementById("audioPlayer"),
   stationList: document.getElementById("stationList"),
   stationCountText: document.getElementById("stationCountText"),
+  continentSelect: document.getElementById("continentSelect"),
   countrySelect: document.getElementById("countrySelect"),
   sortSelect: document.getElementById("sortSelect"),
   stationSearch: document.getElementById("stationSearch"),
@@ -651,14 +901,16 @@ function setupEventListeners() {
   // Continent pill knoppen
   document.querySelectorAll(".continent-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".continent-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      State.activeContinent = btn.dataset.continent;
-      State.activeCountry = "";
-      populateCountrySelect();
-      filterStations();
+      setContinent(btn.dataset.continent);
     });
   });
+
+  // Continent dropdown
+  if (DOM.continentSelect) {
+    DOM.continentSelect.addEventListener("change", (e) => {
+      setContinent(e.target.value);
+    });
+  }
 
   // Genre pill filters
   document.querySelectorAll(".genre-pill").forEach(btn => {
@@ -674,6 +926,9 @@ function setupEventListeners() {
   DOM.countrySelect.addEventListener("change", (e) => {
     State.activeCountry = e.target.value;
     filterStations();
+    if (State.activeCountry) {
+      queryCountryExact(State.activeCountry);
+    }
   });
   DOM.sortSelect.addEventListener("change", (e) => {
     State.activeSort = e.target.value;
@@ -695,14 +950,11 @@ function setupEventListeners() {
 
   // Reset knop in empty-state
   document.getElementById("btnResetFilters")?.addEventListener("click", () => {
-    State.activeContinent = "all";
-    State.activeCountry = "";
+    setContinent("all");
     State.activeGenre = "";
     State.searchQuery = "";
     DOM.stationSearch.value = "";
-    document.querySelectorAll(".continent-btn").forEach(b => b.classList.toggle("active", b.dataset.continent === "all"));
     document.querySelectorAll(".genre-pill").forEach(b => b.classList.toggle("active", b.dataset.genre === ""));
-    populateCountrySelect();
     filterStations();
   });
 
@@ -804,19 +1056,39 @@ function setupEventListeners() {
 }
 
 // ==========================================================================
-// 5. Landen & Filters
+// 5. Continenten, Landen & Filters
 // ==========================================================================
+function setContinent(continentKey) {
+  State.activeContinent = continentKey;
+  State.activeCountry = "";
+
+  // Update continent pill knoppen
+  document.querySelectorAll(".continent-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.continent === continentKey);
+  });
+
+  // Update continent dropdown
+  if (DOM.continentSelect) {
+    DOM.continentSelect.value = continentKey;
+  }
+
+  populateCountrySelect();
+  filterStations();
+
+  // Laad direct live stations in voor dit continent via API
+  loadContinentStations(continentKey);
+}
+
 function populateCountrySelect() {
-  DOM.countrySelect.innerHTML = '<option value="">🗺️ Alle Landen</option>';
-  
   if (State.activeContinent === "all") {
+    DOM.countrySelect.innerHTML = '<option value="">🗺️ Alle Landen Wereldwijd</option>';
     Object.values(CONTINENTS).forEach(cont => {
       const optgroup = document.createElement("optgroup");
       optgroup.label = `${cont.flag} ${cont.name}`;
       Object.entries(cont.countries).forEach(([code, name]) => {
         const opt = document.createElement("option");
         opt.value = code;
-        opt.textContent = name;
+        opt.textContent = `${getFlagEmoji(code)} ${name}`;
         optgroup.appendChild(opt);
       });
       DOM.countrySelect.appendChild(optgroup);
@@ -824,13 +1096,130 @@ function populateCountrySelect() {
   } else {
     const cont = CONTINENTS[State.activeContinent];
     if (cont) {
+      DOM.countrySelect.innerHTML = `<option value="">🗺️ Alle Landen in ${cont.name}</option>`;
       Object.entries(cont.countries).forEach(([code, name]) => {
         const opt = document.createElement("option");
         opt.value = code;
-        opt.textContent = `${cont.flag} ${name}`;
+        opt.textContent = `${getFlagEmoji(code)} ${name}`;
         DOM.countrySelect.appendChild(opt);
       });
     }
+  }
+  DOM.countrySelect.value = State.activeCountry || "";
+}
+
+async function loadContinentStations(continentKey) {
+  if (continentKey === "all") {
+    queryRadioBrowserApi(false);
+    return;
+  }
+
+  const contData = CONTINENTS[continentKey];
+  if (!contData) return;
+
+  DOM.loadingIndicator.style.display = "flex";
+  DOM.stationCountText.textContent = `Zenders ophalen voor ${contData.name}...`;
+
+  // Selecteer de top 6 landen van dit continent om parallel live stations op te halen
+  const topCodes = Object.keys(contData.countries).slice(0, 6);
+  const server = "https://de1.api.radio-browser.info";
+
+  try {
+    const promises = topCodes.map(code => 
+      fetch(`${server}/json/stations/bycountrycodeexact/${code}?limit=15&order=votes&reverse=true&hidebroken=true`)
+        .then(r => r.ok ? r.json() : [])
+        .catch(() => [])
+    );
+
+    const resultsArray = await Promise.all(promises);
+    let addedCount = 0;
+    const existingIds = new Set(State.stations.map(s => s.id));
+
+    resultsArray.forEach(data => {
+      if (Array.isArray(data)) {
+        data.forEach(item => {
+          if (item.url_resolved || item.url) {
+            const id = item.stationuuid || Math.random().toString(36).substring(2);
+            if (!existingIds.has(id)) {
+              existingIds.add(id);
+              State.stations.push({
+                id: id,
+                name: item.name.trim(),
+                country: item.country || contData.name,
+                countrycode: item.countrycode || "",
+                continent: continentKey,
+                tags: item.tags || "",
+                codec: item.codec || "MP3",
+                bitrate: item.bitrate || 128,
+                url: item.url_resolved || item.url,
+                favicon: item.favicon || "favicon.svg",
+                votes: item.votes || 0
+              });
+              addedCount++;
+            }
+          }
+        });
+      }
+    });
+
+    filterStations();
+    if (addedCount > 0) {
+      showToast(`${contData.flag} ${contData.name}: ${addedCount} extra live radiostations geladen!`);
+    }
+  } catch (err) {
+    console.warn("Fout bij ophalen continent zenders:", err);
+  } finally {
+    DOM.loadingIndicator.style.display = "none";
+  }
+}
+
+async function queryCountryExact(countryCode) {
+  if (!countryCode) return;
+  DOM.loadingIndicator.style.display = "flex";
+  DOM.stationCountText.textContent = `Zenders ophalen voor ${countryCode}...`;
+  
+  try {
+    const server = "https://de1.api.radio-browser.info";
+    const resp = await fetch(`${server}/json/stations/bycountrycodeexact/${countryCode}?limit=40&order=votes&reverse=true&hidebroken=true`);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (Array.isArray(data) && data.length > 0) {
+        let addedCount = 0;
+        const existingIds = new Set(State.stations.map(s => s.id));
+
+        data.forEach(item => {
+          if (item.url_resolved || item.url) {
+            const id = item.stationuuid || Math.random().toString(36).substring(2);
+            if (!existingIds.has(id)) {
+              existingIds.add(id);
+              State.stations.push({
+                id: id,
+                name: item.name.trim(),
+                country: item.country || countryCode,
+                countrycode: item.countrycode || countryCode,
+                continent: State.activeContinent !== "all" ? State.activeContinent : (COUNTRY_TO_CONTINENT[item.countrycode] || "all"),
+                tags: item.tags || "",
+                codec: item.codec || "MP3",
+                bitrate: item.bitrate || 128,
+                url: item.url_resolved || item.url,
+                favicon: item.favicon || "favicon.svg",
+                votes: item.votes || 0
+              });
+              addedCount++;
+            }
+          }
+        });
+
+        filterStations();
+        if (addedCount > 0) {
+          showToast(`${getFlagEmoji(countryCode)} ${addedCount} live zenders opgehaald!`);
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Fout bij ophalen landzenders:", err);
+  } finally {
+    DOM.loadingIndicator.style.display = "none";
   }
 }
 

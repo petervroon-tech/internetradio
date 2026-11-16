@@ -856,6 +856,10 @@ const DOM = {
   recCountBadge: document.getElementById("recCountBadge"),
 
   // Modals & Bovenbalk
+  verPill: document.getElementById("verPill"),
+  verPillText: document.getElementById("verPillText"),
+  subbarVerText: document.getElementById("subbarVerText"),
+  footerVerNote: document.getElementById("footerVerNote"),
   btnFavorites: document.getElementById("btnFavorites"),
   favCountBadge: document.getElementById("favCountBadge"),
   btnRandom: document.getElementById("btnRandom"),
@@ -1023,6 +1027,11 @@ function setupEventListeners() {
   DOM.btnRecordToggle.addEventListener("click", toggleRecording);
 
   // Modals & Navigation
+  if (DOM.verPill) {
+    DOM.verPill.addEventListener("click", () => {
+      fetchVersionData(true);
+    });
+  }
   DOM.btnHelp.addEventListener("click", openHelpModal);
   DOM.btnCloseHelp.addEventListener("click", closeHelpModal);
   DOM.btnModalCloseDone.addEventListener("click", closeHelpModal);
@@ -2096,13 +2105,19 @@ function clearAllFavorites() {
 // ==========================================================================
 // 12. Help, Documentatie & Dynamische Version Sync (AGENTS.md)
 // ==========================================================================
-async function fetchVersionData() {
+async function fetchVersionData(showFeedback = false) {
   try {
     const res = await fetch(`version.json?_t=${Date.now()}`);
     if (res.ok) {
       const vdata = await res.json();
-      DOM.helpVersionBadge.textContent = `✓ Altijd Actueel • v${vdata.version || "1.0.0"}`;
-      DOM.helpGitHash.textContent = `Build ${vdata.build || 1} (${vdata.git_hash || "online"})`;
+      const verStr = `v${vdata.version || "1.0.5"}`;
+      const buildStr = `Build ${vdata.build || 6}`;
+
+      if (DOM.verPillText) DOM.verPillText.textContent = `${verStr} ${buildStr}`;
+      if (DOM.subbarVerText) DOM.subbarVerText.textContent = verStr;
+      if (DOM.footerVerNote) DOM.footerVerNote.textContent = `PeterVroon Radio • ${verStr} ${buildStr} • GitHub Pages Online Editie`;
+      if (DOM.helpVersionBadge) DOM.helpVersionBadge.textContent = `✓ Altijd Actueel • ${verStr} ${buildStr}`;
+      if (DOM.helpGitHash) DOM.helpGitHash.textContent = `${buildStr} (${vdata.git_hash || "online"})`;
 
       // Render dynamische featurelijst in Help modal
       if (Array.isArray(vdata.features)) {
@@ -2111,6 +2126,10 @@ async function fetchVersionData() {
             ${escapeHtml(f)}
           </div>
         `).join("");
+      }
+
+      if (showFeedback) {
+        showToast(`✓ PeterVroon Radio ${verStr} ${buildStr} is 100% up-to-date!`);
       }
     }
   } catch (err) {

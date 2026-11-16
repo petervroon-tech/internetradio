@@ -1378,6 +1378,7 @@ function renderStationList(stationsToRender = State.stations) {
 
     const card = document.createElement("div");
     card.className = `station-card ${isCurrent ? "active" : ""}`;
+    card.dataset.id = station.id;
     card.setAttribute("role", "listitem");
     card.setAttribute("tabindex", "0");
 
@@ -1561,13 +1562,10 @@ function updatePlayerUI() {
     DOM.btnMainPlay.title = "Afspelen (Spatie)";
   }
 
-  // Update actieve klasse in zenderlijst
+  // Update actieve klasse in zenderlijst zonder de gefilterde lijst opnieuw te overschrijven
   document.querySelectorAll(".station-card").forEach(c => {
-    c.classList.remove("active");
+    c.classList.toggle("active", Boolean(st && c.dataset.id === st.id));
   });
-  if (st) {
-    renderStationList(State.stations);
-  }
 }
 
 function toggleMute() {
@@ -2017,7 +2015,7 @@ function toggleFavorite(station) {
     showToast(`⭐ Toegevoegd aan favorieten: ${station.name}`);
   }
   saveFavorites();
-  renderStationList(State.stations);
+  filterStations();
   if (DOM.favoritesModal.style.display === "flex") {
     renderFavoritesModalList();
   }
@@ -2090,7 +2088,7 @@ function clearAllFavorites() {
     State.favorites = [];
     saveFavorites();
     renderFavoritesModalList();
-    renderStationList(State.stations);
+    filterStations();
     showToast("Alle favorieten gewist.");
   }
 }

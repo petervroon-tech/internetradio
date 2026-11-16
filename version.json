@@ -1,10 +1,11 @@
 {
   "app_name": "PeterVroon Radio",
-  "version": "1.0.3",
-  "build": 4,
-  "timestamp": "2026-11-16T23:54:15.931465+00:00",
+  "version": "1.0.4",
+  "build": 5,
+  "timestamp": "2026-11-16T23:56:06.142471+00:00",
   "git_hash": "4c60f0f",
   "features": [
+    "🎯 Behoud van Continent- & Filterselectie bij Afspelen (v1.0.4): Volledige fix voor het behouden van de zenderlijst. Als u 'Azië' (of een ander continent, land of genre) heeft gekozen, blijft de gefilterde lijst 100% stabiel en actief in beeld staan wanneer u een station aanklikt om af te spelen.",
     "⚡ Direct Automatisch Starten & 100% Betrouwbare Audio (v1.0.3): Volledig herstel van audioweergave. De radio start direct vanzelf bij het openen van de app en bij de allereerste interactie/klik op het scherm. Blokkerende CORS-beperkingen op HTML5 audio zijn geëlimineerd waardoor alle radiostations ter wereld direct en luidsprekervriendelijk spelen op iPhone, iPad, Mac en Windows.",
     "🌏 Geavanceerde Continenten- & Azië Selectie (v1.0.2): Volledige integratie van Azië en alle continenten met een handige continent-dropdown in het filterpaneel, 25+ direct speelbare Aziatische zenders (Japan, Zuid-Korea, India, Taiwan, Singapore, Thailand, Vietnam, Turkije, Indonesië) én realtime parallelle Radio-Browser API-ingest bij het selecteren van een continent of specifiek land.",
     "🚀 Versie v1.0.1: Officiële release van PeterVroon Radio met continenten-explorer, live MP3-opnamestudio en automatische GitHub Pages deployment.",

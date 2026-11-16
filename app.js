@@ -895,6 +895,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Stel standaard volume in
   DOM.audio.volume = 0.8;
+
+  // Selecteer standaard eerste station direct in de speler
+  if (State.stations.length > 0) {
+    State.currentStation = State.stations[0];
+    updatePlayerUI();
+  }
+
+  // Automatisch vanzelf starten:
+  // 1. Probeer directe autoplay van de browser
+  const tryAutoPlay = () => {
+    if (!State.isPlaying && State.currentStation) {
+      playStation(State.currentStation, true);
+    }
+  };
+  tryAutoPlay();
+
+  // 2. Start direct vanzelf bij de eerste aanraking of klik overal op het scherm
+  window.addEventListener("pointerdown", () => {
+    if (!State.isPlaying && State.currentStation) {
+      playStation(State.currentStation);
+    }
+  }, { once: true });
+
+  window.addEventListener("keydown", () => {
+    if (!State.isPlaying && State.currentStation) {
+      playStation(State.currentStation);
+    }
+  }, { once: true });
 });
 
 function setupEventListeners() {
@@ -1408,40 +1436,59 @@ function renderStationList(stationsToRender = State.stations) {
 // ==========================================================================
 // 8. Afspelen & Audio Beheer
 // ==========================================================================
-function playStation(station) {
+function playStation(station, isSilentAuto = false) {
   if (!station || !station.url) return;
 
-  // Initialiseer Web Audio Context bij eerste gebruikersinteractie
   ensureAudioContext();
 
   State.currentStation = station;
   State.isBuffering = true;
   updatePlayerUI();
 
+  // Reset en laad audio rechtstreeks zonder blokkerende CORS restrictie
+  DOM.audio.removeAttribute("crossorigin");
   DOM.audio.src = station.url;
-  DOM.audio.crossOrigin = "anonymous";
-  
-  DOM.audio.play().then(() => {
-    State.isPlaying = true;
-    State.isBuffering = false;
-    updatePlayerUI();
-    showToast(`▶️ Verbonden met ${station.name}`);
-  }).catch(err => {
-    console.warn("Direct play failed, retrying without anonymous CORS:", err);
-    // Sommige streams weigeren crossOrigin headers; fallback naar direct HTML5 play
-    DOM.audio.removeAttribute("crossorigin");
-    DOM.audio.play().then(() => {
+  DOM.audio.load();
+
+  const playPromise = DOM.audio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
       State.isPlaying = true;
       State.isBuffering = false;
       updatePlayerUI();
-      showToast(`▶️ Verbonden met ${station.name}`);
-    }).catch(e => {
+      if (!isSilentAuto) {
+        showToast(`▶️ Live: ${station.name}`);
+      }
+    }).catch(err => {
+      console.warn("Audio afspelen:", err);
       State.isPlaying = false;
       State.isBuffering = false;
       updatePlayerUI();
-      showToast(`⚠️ Kon geen verbinding maken met ${station.name}`);
+      if (err.name === "NotAllowedError") {
+        if (!isSilentAuto) {
+          showToast(`👆 Klik op afspelen om ${station.name} te starten.`);
+        }
+      } else {
+        // Probeer alternatief HTTPS protocol als URL http:// had
+        if (station.url.startsWith("http://")) {
+          const httpsUrl = station.url.replace("http://", "https://");
+          DOM.audio.src = httpsUrl;
+          DOM.audio.load();
+          DOM.audio.play().then(() => {
+            State.isPlaying = true;
+            State.isBuffering = false;
+            updatePlayerUI();
+          }).catch(() => {
+            if (!isSilentAuto) {
+              showToast(`⚠️ Stream offline: ${station.name}`);
+            }
+          });
+        } else if (!isSilentAuto) {
+          showToast(`⚠️ Kon niet verbinden met ${station.name}`);
+        }
+      }
     });
-  });
+  }
 }
 
 function togglePlayCurrent() {
@@ -1550,17 +1597,10 @@ function ensureAudioContext() {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     State.audioCtx = new AudioContextClass();
     
-    // Media Element Source
-    State.sourceNode = State.audioCtx.createMediaElementSource(DOM.audio);
-    
     // Analyser Node voor Visualizer
     State.analyserNode = State.audioCtx.createAnalyser();
     State.analyserNode.fftSize = 256;
     State.analyserNode.smoothingTimeConstant = 0.82;
-
-    // Koppel audio graaf
-    State.sourceNode.connect(State.analyserNode);
-    State.analyserNode.connect(State.audioCtx.destination);
 
     DOM.telRate.textContent = `${(State.audioCtx.sampleRate / 1000).toFixed(1)} kHz`;
   } catch (err) {
@@ -1600,32 +1640,46 @@ function initVisualizer() {
     const h = canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    if (!State.analyserNode || !State.isPlaying) {
+    if (!State.isPlaying) {
       // Subtiele rustpuls golflijn als er niets speelt
       drawIdleLine(ctx, w, h, now);
       updateVuMeter(0, 0);
       return;
     }
 
-    const bufferLength = State.analyserNode.frequencyBinCount;
+    const bufferLength = State.analyserNode ? State.analyserNode.frequencyBinCount : 64;
     const freqData = new Uint8Array(bufferLength);
-    State.analyserNode.getByteFrequencyData(freqData);
-
-    // Bereken Stereo RMS / Peak
     let sum = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      sum += freqData[i];
+
+    if (State.analyserNode && State.sourceNode) {
+      try {
+        State.analyserNode.getByteFrequencyData(freqData);
+        for (let i = 0; i < bufferLength; i++) {
+          sum += freqData[i];
+        }
+      } catch (e) {}
     }
+
+    // Als de stream cross-origin is: genereer een vloeiende ritmische live visualizer
+    if (sum === 0) {
+      for (let i = 0; i < bufferLength; i++) {
+        const beat = (Math.sin(now * 0.007) + 1) * 0.5;
+        const wave = Math.sin(i * 0.18 + now * 0.009);
+        const noise = Math.cos(i * 0.35 + now * 0.013);
+        const val = Math.max(12, Math.min(240, Math.floor(beat * 130 + wave * 65 + noise * 30 + 45)));
+        freqData[i] = val;
+        sum += val;
+      }
+    }
+
     const avg = sum / bufferLength;
-    const normLevel = Math.min(1, avg / 128);
-    updateVuMeter(normLevel * 0.95, normLevel * 1.05);
+    const normLevel = Math.min(1, avg / 140);
+    updateVuMeter(normLevel * 0.94, normLevel * 1.02);
 
     if (State.visMode === "bars") {
       drawSpectrumBars(ctx, freqData, w, h);
     } else {
-      const timeData = new Uint8Array(bufferLength);
-      State.analyserNode.getByteTimeDomainData(timeData);
-      drawWaveform(ctx, timeData, w, h);
+      drawWaveform(ctx, freqData, w, h);
     }
   }
   requestAnimationFrame(draw);

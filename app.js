@@ -792,8 +792,9 @@ const State = {
   recordedBytesEstimate: 0,
   savedRecordings: [],
 
-  // Mobile split toggle
-  mobileView: "stations" // 'stations' | 'player'
+  // Weergave modus ('voorkant' = overzicht | 'achterkant' = speler & studio | 'split')
+  currentView: "voorkant",
+  mobileView: "stations"
 };
 
 // DOM Referenties
@@ -808,6 +809,25 @@ const DOM = {
   btnClearSearch: document.getElementById("btnClearSearch"),
   loadingIndicator: document.getElementById("loadingIndicator"),
   emptyState: document.getElementById("emptyState"),
+
+  // Weergave Knoppen (Voorkant / Achterkant / Split)
+  btnViewVoorkant: document.getElementById("btnViewVoorkant"),
+  btnViewAchterkant: document.getElementById("btnViewAchterkant"),
+  btnViewSplit: document.getElementById("btnViewSplit"),
+  btnBackToVoorkant: document.getElementById("btnBackToVoorkant"),
+
+  // Zwevende Mini-Speler HUD (Zichtbaar op de Voorkant)
+  miniPlayerHud: document.getElementById("miniPlayerHud"),
+  miniStationLogo: document.getElementById("miniStationLogo"),
+  miniStationFlag: document.getElementById("miniStationFlag"),
+  miniStationName: document.getElementById("miniStationName"),
+  miniStationBadge: document.getElementById("miniStationBadge"),
+  miniStationTrack: document.getElementById("miniStationTrack"),
+  btnMiniPrev: document.getElementById("btnMiniPrev"),
+  btnMiniPlay: document.getElementById("btnMiniPlay"),
+  btnMiniNext: document.getElementById("btnMiniNext"),
+  btnMiniMute: document.getElementById("btnMiniMute"),
+  btnMiniToAchterkant: document.getElementById("btnMiniToAchterkant"),
 
   // Player
   btnMainPlay: document.getElementById("btnMainPlay"),
@@ -944,6 +964,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   filterStations();
   updatePlayerUI();
+
+  // Start ALTIJD gegarandeerd met de Voorkant (het Overzicht van de zenders) conform gebruikerswens!
+  setViewMode("voorkant");
 
   // Automatisch vanzelf starten:
   // 1. Probeer directe autoplay van de browser
@@ -1090,19 +1113,22 @@ function setupEventListeners() {
     });
   });
 
-  // Mobiele schermwissel
-  DOM.btnMobileToggle.addEventListener("click", () => {
-    if (State.mobileView === "stations") {
-      State.mobileView = "player";
-      DOM.mainContainer.classList.add("show-player");
-      DOM.mobileSwitchIcon.textContent = "📻";
-      DOM.mobileSwitchText.textContent = "Zenders";
-    } else {
-      State.mobileView = "stations";
-      DOM.mainContainer.classList.remove("show-player");
-      DOM.mobileSwitchIcon.textContent = "🎛️";
-      DOM.mobileSwitchText.textContent = "Speler";
-    }
+  // Universele Weergave Knoppen (Voorkant / Achterkant / Split)
+  DOM.btnViewVoorkant?.addEventListener("click", () => setViewMode("voorkant"));
+  DOM.btnViewAchterkant?.addEventListener("click", () => setViewMode("achterkant"));
+  DOM.btnViewSplit?.addEventListener("click", () => setViewMode("split"));
+  DOM.btnBackToVoorkant?.addEventListener("click", () => setViewMode("voorkant"));
+
+  // Zwevende Mini Speler HUD Knoppen
+  DOM.btnMiniPlay?.addEventListener("click", togglePlayCurrent);
+  DOM.btnMiniPrev?.addEventListener("click", playRandomStation);
+  DOM.btnMiniNext?.addEventListener("click", playRandomStation);
+  DOM.btnMiniMute?.addEventListener("click", toggleMute);
+  DOM.btnMiniToAchterkant?.addEventListener("click", () => setViewMode("achterkant"));
+
+  // Mobiele schermwissel fallback knop
+  DOM.btnMobileToggle?.addEventListener("click", () => {
+    setViewMode(State.currentView === "voorkant" ? "achterkant" : "voorkant");
   });
 
   // Audio Element Events
@@ -1129,6 +1155,48 @@ function setupEventListeners() {
 
   // Sneltoetsen
   window.addEventListener("keydown", handleKeydown);
+}
+
+// ==========================================================================
+// 4b. Weergave Beheer: Voorkant (Overzicht) vs Achterkant (Speler & Studio)
+// ==========================================================================
+function setViewMode(mode) {
+  State.currentView = mode;
+
+  if (DOM.mainContainer) {
+    DOM.mainContainer.classList.remove("view-voorkant", "view-achterkant", "view-split");
+    DOM.mainContainer.classList.add(`view-${mode}`);
+  }
+
+  // Update actieve stijl van navigatieknoppen
+  if (DOM.btnViewVoorkant) DOM.btnViewVoorkant.classList.toggle("active", mode === "voorkant");
+  if (DOM.btnViewAchterkant) DOM.btnViewAchterkant.classList.toggle("active", mode === "achterkant");
+  if (DOM.btnViewSplit) DOM.btnViewSplit.classList.toggle("active", mode === "split");
+
+  updateMiniPlayerUI();
+}
+
+function updateMiniPlayerUI() {
+  if (!DOM.miniPlayerHud) return;
+
+  // Mini-player alleen tonen op de Voorkant (overzicht) wanneer er een zender actief is
+  if (State.currentView === "voorkant" && State.currentStation) {
+    DOM.miniPlayerHud.style.display = "flex";
+    if (DOM.miniStationLogo) DOM.miniStationLogo.src = State.currentStation.favicon || "favicon.svg";
+    if (DOM.miniStationFlag) DOM.miniStationFlag.textContent = getFlagEmoji(State.currentStation.countrycode);
+    if (DOM.miniStationName) DOM.miniStationName.textContent = State.currentStation.name;
+    if (DOM.miniStationBadge) {
+      DOM.miniStationBadge.textContent = State.isPlaying ? "LIVE" : "GEREED";
+      DOM.miniStationBadge.className = `mini-badge ${State.isPlaying ? "is-live" : ""}`;
+    }
+    if (DOM.miniStationTrack) {
+      DOM.miniStationTrack.textContent = `${State.currentStation.country || "Wereldwijd"} • ${State.currentStation.bitrate || 128}k ${State.currentStation.codec || "MP3"}`;
+    }
+    if (DOM.btnMiniPlay) DOM.btnMiniPlay.textContent = State.isPlaying ? "⏸️" : "▶️";
+    if (DOM.btnMiniMute) DOM.btnMiniMute.textContent = DOM.audio.muted ? "🔇" : "🔊";
+  } else {
+    DOM.miniPlayerHud.style.display = "none";
+  }
 }
 
 // ==========================================================================
@@ -1497,13 +1565,8 @@ function renderStationList(stationsToRender = State.stations) {
         return;
       }
       playStation(station);
-      // Op mobiel: schakel direct over naar de speler
-      if (window.innerWidth <= 680) {
-        State.mobileView = "player";
-        DOM.mainContainer.classList.add("show-player");
-        DOM.mobileSwitchIcon.textContent = "📻";
-        DOM.mobileSwitchText.textContent = "Zenders";
-      }
+      // Blijf comfortabel op het overzicht (de voorkant) en update de mini-speler
+      updateMiniPlayerUI();
     });
 
     DOM.stationList.appendChild(card);
@@ -1643,11 +1706,15 @@ function updatePlayerUI() {
   document.querySelectorAll(".station-card").forEach(c => {
     c.classList.toggle("active", Boolean(st && c.dataset.id === st.id));
   });
+
+  // Synchroniseer zwevende mini-speler op de voorkant
+  updateMiniPlayerUI();
 }
 
 function toggleMute() {
   DOM.audio.muted = !DOM.audio.muted;
   DOM.volIcon.textContent = DOM.audio.muted ? "🔇" : "🔊";
+  updateMiniPlayerUI();
   showToast(DOM.audio.muted ? "Dempen ingeschakeld" : "Geluid hersteld");
 }
 

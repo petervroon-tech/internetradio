@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>PeterVroon Radio | Wereldwijd & Live MP3 Opname</title>
-  <meta name="description" content="PeterVroon Radio: wereldwijde internetradio per continent met live audio visualizer, telemetrie en ingebouwde MP3 stream-opnamestudio.">
+  <meta name="description"
+    content="PeterVroon Radio: wereldwijde internetradio per continent met live audio visualizer, telemetrie en ingebouwde MP3 stream-opnamestudio.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <!-- Standalone Pure JS MP3 Encoder -->
   <script src="lame.min.js"></script>
 </head>
+
 <body>
   <div id="app" class="app-layout">
-    
+
     <!-- Top Navigatiebalk -->
     <header class="top-nav">
       <div class="nav-brand">
         <div class="brand-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="2" />
-            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
+            <path
+              d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
           </svg>
         </div>
         <div class="brand-text">
@@ -63,6 +68,22 @@
 
       <!-- Acties Bovenbalk -->
       <div class="nav-actions">
+        <!-- Universele Weergave Schakelaar: Voorkant (Overzicht) vs Achterkant (Speler & Studio) vs Split -->
+        <div class="view-mode-group" role="group" aria-label="Weergave modus">
+          <button id="btnViewVoorkant" class="pill-btn view-pill active" title="Voorkant: Zenderoverzicht & Filters">
+            <span class="pill-icon">📻</span>
+            <span class="view-pill-text">Voorkant (Overzicht)</span>
+          </button>
+          <button id="btnViewAchterkant" class="pill-btn view-pill" title="Achterkant: Speler, Visualizer & MP3 Opname Studio">
+            <span class="pill-icon">🎛️</span>
+            <span class="view-pill-text">Achterkant (Studio)</span>
+          </button>
+          <button id="btnViewSplit" class="pill-btn view-pill split-pill" title="Split Screen: Zenders en Speler naast elkaar">
+            <span class="pill-icon">🖥️</span>
+            <span class="view-pill-text">Split</span>
+          </button>
+        </div>
+
         <button id="btnFavorites" class="pill-btn action-pill" title="Mijn Favoriete Zenders">
           <span class="pill-icon">⭐</span>
           <span class="action-label">Favorieten</span>
@@ -77,8 +98,8 @@
           <span class="action-label">Help</span>
         </button>
 
-        <!-- Mobiele Schermwissel (Alleen zichtbaar op smartphone) -->
-        <button id="btnMobileToggle" class="pill-btn mobile-switch-btn" aria-label="Wissel weergave">
+        <!-- Mobiele Schermwissel knop (fallback compatibiliteit) -->
+        <button id="btnMobileToggle" class="pill-btn mobile-switch-btn" aria-label="Wissel weergave" style="display:none;">
           <span id="mobileSwitchIcon">🎛️</span>
           <span id="mobileSwitchText">Speler</span>
         </button>
@@ -93,8 +114,10 @@
         <div class="panel-header">
           <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="stationSearch" placeholder="Zoek op station, genre, stad of land..." autocomplete="off" spellcheck="false">
-            <button id="btnClearSearch" class="btn-icon-clear" style="display:none;" title="Zoekopdracht wissen">✕</button>
+            <input type="text" id="stationSearch" placeholder="Zoek op station, genre, stad of land..."
+              autocomplete="off" spellcheck="false">
+            <button id="btnClearSearch" class="btn-icon-clear" style="display:none;"
+              title="Zoekopdracht wissen">✕</button>
           </div>
 
           <div class="filter-row">
@@ -168,11 +191,49 @@
             <button id="btnResetFilters" class="pill-btn primary-pill">Wis Alle Filters</button>
           </div>
         </div>
+
+        <!-- Zwevende Mini-Speler HUD (Zichtbaar op de Voorkant wanneer een zender actief is) -->
+        <div id="miniPlayerHud" class="mini-player-hud" style="display: none;" role="region" aria-label="Mini Speler">
+          <div class="mini-hud-left">
+            <img id="miniStationLogo" src="favicon.svg" alt="Station Logo" class="mini-station-logo" onerror="this.src='favicon.svg'">
+            <div class="mini-station-details">
+              <div class="mini-station-title-row">
+                <span id="miniStationFlag">🌍</span>
+                <span id="miniStationName" class="mini-station-name">PeterVroon Radio</span>
+                <span id="miniStationBadge" class="mini-badge">GEREED</span>
+              </div>
+              <div id="miniStationTrack" class="mini-station-track">Live internetradio</div>
+            </div>
+          </div>
+          <div class="mini-hud-center">
+            <button id="btnMiniPrev" class="mini-ctrl-btn" title="Vorige Zender">⏮️</button>
+            <button id="btnMiniPlay" class="mini-play-btn" title="Afspelen of Pauzeren">▶️</button>
+            <button id="btnMiniNext" class="mini-ctrl-btn" title="Volgende Zender">⏭️</button>
+          </div>
+          <div class="mini-hud-right">
+            <button id="btnMiniMute" class="mini-icon-btn" title="Geluid Dempen">🔊</button>
+            <button id="btnMiniToAchterkant" class="pill-btn mini-flip-btn" title="Open de Achterkant (Speler, Visualizer & Studio)">
+              <span>🎛️ Naar Achterkant (Studio)</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- Rechterpaneel: Speler, Visualizer, Telemetrie & MP3 Opname Studio -->
       <section id="playerPanel" class="panel player-panel">
-        
+
+        <!-- Terug naar Voorkant Snelle Bovenbalk -->
+        <div class="player-top-action-bar">
+          <button id="btnBackToVoorkant" class="pill-btn back-voorkant-pill" title="Terug naar Zenderoverzicht">
+            <span>← 📻 Terug naar Voorkant (Overzicht)</span>
+          </button>
+          <div class="player-status-pill">
+            <span class="pulse-green"></span>
+            <span>Speler & Studio Actief</span>
+          </div>
+        </div>
+
         <!-- Live Now Playing Kaart -->
         <div class="hero-player-card">
           <div class="hero-disc-wrapper">
@@ -204,22 +265,24 @@
           <div class="player-controls">
             <button id="btnPrevRandom" class="ctrl-btn sub-ctrl" title="Vorige Zender">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+                <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
               </svg>
             </button>
             <button id="btnMainPlay" class="ctrl-btn main-play-btn" title="Afspelen / Pauzeren (Spatie)">
               <svg id="playIconSvg" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
+                <path d="M8 5v14l11-7z" />
               </svg>
             </button>
             <button id="btnNextRandom" class="ctrl-btn sub-ctrl" title="Volgende Willekeurige Zender">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
               </svg>
             </button>
             <button id="btnMainFav" class="ctrl-btn fav-ctrl" title="Favoriet maken (F)">
-              <svg id="mainFavIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              <svg id="mainFavIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             </button>
           </div>
@@ -229,7 +292,8 @@
             <button id="btnMute" class="vol-btn" title="Dempen (M)">
               <span id="volIcon">🔊</span>
             </button>
-            <input type="range" id="volumeSlider" min="0" max="100" value="80" class="smooth-slider" aria-label="Volume">
+            <input type="range" id="volumeSlider" min="0" max="100" value="80" class="smooth-slider"
+              aria-label="Volume">
             <span id="volumePercent" class="vol-text">80%</span>
           </div>
         </div>
@@ -257,18 +321,23 @@
             <div class="vu-meters">
               <div class="vu-channel">
                 <span class="vu-label">L</span>
-                <div class="vu-track"><div id="vuLeftBar" class="vu-fill"></div></div>
+                <div class="vu-track">
+                  <div id="vuLeftBar" class="vu-fill"></div>
+                </div>
                 <span id="vuLeftDb" class="vu-val">-∞ dB</span>
               </div>
               <div class="vu-channel">
                 <span class="vu-label">R</span>
-                <div class="vu-track"><div id="vuRightBar" class="vu-fill"></div></div>
+                <div class="vu-track">
+                  <div id="vuRightBar" class="vu-fill"></div>
+                </div>
                 <span id="vuRightDb" class="vu-val">-∞ dB</span>
               </div>
             </div>
             <div class="stream-telemetry">
               <div class="tel-item"><span class="tel-lbl">Samplerate:</span> <span id="telRate">44.1 kHz</span></div>
-              <div class="tel-item"><span class="tel-lbl">Buffer:</span> <span id="telBuffer" class="tel-ok">Optimaal</span></div>
+              <div class="tel-item"><span class="tel-lbl">Buffer:</span> <span id="telBuffer"
+                  class="tel-ok">Optimaal</span></div>
               <div class="tel-item"><span class="tel-lbl">FPS:</span> <span id="telFps">60 FPS</span></div>
             </div>
           </div>
@@ -326,7 +395,8 @@
             </div>
             <div id="recordingsList" class="recordings-list">
               <div id="noRecordingsState" class="empty-recordings">
-                <span>Nog geen opnames gemaakt. Klik hierboven op <strong>Start MP3 Opname</strong> om live audio direct vast te leggen.</span>
+                <span>Nog geen opnames gemaakt. Klik hierboven op <strong>Start MP3 Opname</strong> om live audio direct
+                  vast te leggen.</span>
               </div>
             </div>
           </div>
@@ -339,7 +409,8 @@
     <audio id="audioPlayer" preload="none"></audio>
 
     <!-- 💡 HELP & HANDLEIDING MODAL (Dynamisch gesynchroniseerd met version.json) -->
-    <div id="helpModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+    <div id="helpModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true"
+      aria-labelledby="helpModalTitle">
       <div class="modal-sheet">
         <div class="modal-header">
           <div class="modal-title-group">
@@ -368,15 +439,21 @@
           <div id="helpTabGuide" class="help-tab-pane active">
             <div class="help-card">
               <h3>🌍 1. Kies een Continent of Land</h3>
-              <p>Gebruik de bovenste continent-knoppen (Europa, Noord-Amerika, Azië, etc.) om direct duizenden stations uit dat werelddeel te laden. Verfijn met de landkiezer of de genre-knoppen (Pop, Rock, Nieuws, Jazz).</p>
+              <p>Gebruik de bovenste continent-knoppen (Europa, Noord-Amerika, Azië, etc.) om direct duizenden stations
+                uit dat werelddeel te laden. Verfijn met de landkiezer of de genre-knoppen (Pop, Rock, Nieuws, Jazz).
+              </p>
             </div>
             <div class="help-card">
               <h3>📻 2. Live Luisteren</h3>
-              <p>Klik op een radiostation om direct te beginnen met luisteren. Het album-wiel draait mee en de 60 FPS spectrum analyzer visualiseert de live audiofrequenties en stereoniveaus.</p>
+              <p>Klik op een radiostation om direct te beginnen met luisteren. Het album-wiel draait mee en de 60 FPS
+                spectrum analyzer visualiseert de live audiofrequenties en stereoniveaus.</p>
             </div>
             <div class="help-card">
               <h3>🎙️ 3. Muziek of Gepraat Opnemen als MP3</h3>
-              <p>Hoor je een fantastisch nummer, een exclusief interview of leuk radioprogramma? Klik op <strong>🔴 Start MP3 Opname</strong> (of druk op <strong>R</strong>). De app neemt de zuivere audiostroom direct op en encodeert deze via de ingebouwde MP3-engine direct naar een echt <code>.mp3</code> audiobestand op uw computer of smartphone.</p>
+              <p>Hoor je een fantastisch nummer, een exclusief interview of leuk radioprogramma? Klik op <strong>🔴
+                  Start MP3 Opname</strong> (of druk op <strong>R</strong>). De app neemt de zuivere audiostroom direct
+                op en encodeert deze via de ingebouwde MP3-engine direct naar een echt <code>.mp3</code> audiobestand op
+                uw computer of smartphone.</p>
             </div>
           </div>
 
@@ -384,11 +461,16 @@
           <div id="helpTabRecording" class="help-tab-pane">
             <div class="help-card">
               <h3>✨ Hoe werkt de MP3 Live Opname?</h3>
-              <p>De opnamestudio gebruikt een Web Audio stream-tap gekoppeld aan een pure JavaScript LAME MP3-encoder. Daardoor wordt live audio direct in de browser omgezet naar een bit-exact MP3-bestand zonder enig kwaliteitsverlies.</p>
+              <p>De opnamestudio gebruikt een Web Audio stream-tap gekoppeld aan een pure JavaScript LAME MP3-encoder.
+                Daardoor wordt live audio direct in de browser omgezet naar een bit-exact MP3-bestand zonder enig
+                kwaliteitsverlies.</p>
               <ul>
-                <li><strong>Kwaliteitskeuze:</strong> Kies tussen 128 kbps (compact), 192 kbps (aanbevolen) of 320 kbps (studio kwaliteit).</li>
-                <li><strong>Automatisch Opslaan:</strong> Vink 'Direct .mp3 downloaden' aan om bij het stoppen direct een opslagvenster of automatische download te krijgen.</li>
-                <li><strong>Sessie-Geschiedenis:</strong> Al uw opnames van de huidige sessie blijven bewaard in de lijst 'Mijn Opnames', waar u ze direct kunt beluisteren, pauzeren en opnieuw kunt downloaden.</li>
+                <li><strong>Kwaliteitskeuze:</strong> Kies tussen 128 kbps (compact), 192 kbps (aanbevolen) of 320 kbps
+                  (studio kwaliteit).</li>
+                <li><strong>Automatisch Opslaan:</strong> Vink 'Direct .mp3 downloaden' aan om bij het stoppen direct
+                  een opslagvenster of automatische download te krijgen.</li>
+                <li><strong>Sessie-Geschiedenis:</strong> Al uw opnames van de huidige sessie blijven bewaard in de
+                  lijst 'Mijn Opnames', waar u ze direct kunt beluisteren, pauzeren en opnieuw kunt downloaden.</li>
               </ul>
             </div>
           </div>
@@ -418,14 +500,16 @@
         </div>
 
         <div class="modal-footer">
-          <span id="footerVerNote" class="footer-note">PeterVroon Radio • v1.0.5 Build 6 • GitHub Pages Online Editie</span>
+          <span id="footerVerNote" class="footer-note">PeterVroon Radio • v1.0.5 Build 6 • GitHub Pages Online
+            Editie</span>
           <button id="btnModalCloseDone" class="pill-btn primary-pill">Begrepen</button>
         </div>
       </div>
     </div>
 
     <!-- ⭐ FAVORIETEN DRAWER / MODAL -->
-    <div id="favoritesModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="favModalTitle">
+    <div id="favoritesModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true"
+      aria-labelledby="favModalTitle">
       <div class="modal-sheet">
         <div class="modal-header">
           <div class="modal-title-group">
@@ -444,11 +528,13 @@
           <div id="emptyFavsState" class="empty-state">
             <span class="empty-icon">⭐</span>
             <h3>Nog geen favorieten bewaard</h3>
-            <p>Klik bij een radiostation op het ster-icoon om deze aan uw persoonlijke favorietenlijst toe te voegen.</p>
+            <p>Klik bij een radiostation op het ster-icoon om deze aan uw persoonlijke favorietenlijst toe te voegen.
+            </p>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="btnClearAllFavs" class="pill-btn danger-pill" style="display:none;">Alle Favorieten Wissen</button>
+          <button id="btnClearAllFavs" class="pill-btn danger-pill" style="display:none;">Alle Favorieten
+            Wissen</button>
           <button id="btnCloseFavsDone" class="pill-btn primary-pill">Sluiten</button>
         </div>
       </div>
@@ -461,4 +547,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

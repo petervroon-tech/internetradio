@@ -1809,62 +1809,22 @@ function toggleRecording() {
   }
 }
 
-function startRecording() {
-  if (!State.isPlaying) {
+async function startRecording() {
+  if (!State.isPlaying || !State.currentStation) {
     showToast("⚠️ Start eerst een radiostation om live audio op te nemen.");
     return;
   }
 
-  ensureAudioContext();
-
-  if (!window.lamejs) {
-    showToast("❌ LAME MP3 encoder bibliotheek is niet geladen.");
-    return;
-  }
-
-  const sampleRate = State.audioCtx.sampleRate || 44100;
   const kbps = parseInt(DOM.recBitrate.value, 10) || 192;
-  
-  // Maak MP3 Encoder instantie (Stereo 2-kanaals, sampleRate, bitrate)
-  State.mp3Encoder = new lamejs.Mp3Encoder(2, sampleRate, kbps);
-  State.mp3DataChunks = [];
-  State.recordedSamplesCount = 0;
+  State.isRecording = true;
+  State.recChunks = [];
   State.recordedBytesEstimate = 0;
   State.recordingStartTime = Date.now();
+  State.recAbortController = new AbortController();
 
-  // Web Audio ScriptProcessorNode (Buffer 4096, 2 input channels, 2 output channels)
-  const bufferSize = 4096;
-  State.recorderNode = State.audioCtx.createScriptProcessor(bufferSize, 2, 2);
-
-  State.recorderNode.onaudioprocess = (e) => {
-    if (!State.isRecording) return;
-
-    const leftF32 = e.inputBuffer.getChannelData(0);
-    const rightF32 = e.inputBuffer.getChannelData(1);
-
-    // Converteer Float32 [-1.0 .. 1.0] naar 16-bit PCM Signed Integer
-    const left16 = floatTo16BitPCM(leftF32);
-    const right16 = floatTo16BitPCM(rightF32);
-
-    // Encodeer stereo buffer naar MP3 chunk
-    const mp3buf = State.mp3Encoder.encodeBuffer(left16, right16);
-    if (mp3buf.length > 0) {
-      State.mp3DataChunks.push(mp3buf);
-      State.recordedBytesEstimate += mp3buf.length;
-    }
-
-    State.recordedSamplesCount += leftF32.length;
-    updateRecordingStats();
-  };
-
-  // Koppel recorder in de audiograaf
-  State.sourceNode.connect(State.recorderNode);
-  State.recorderNode.connect(State.audioCtx.destination);
-
-  State.isRecording = true;
   updateRecordingUI(true);
 
-  // Timer interval
+  // Timer interval voor live klok (00:00:01...)
   State.recordingTimerInterval = setInterval(() => {
     const elapsed = Math.floor((Date.now() - State.recordingStartTime) / 1000);
     const hrs = String(Math.floor(elapsed / 3600)).padStart(2, "0");
@@ -1873,7 +1833,87 @@ function startRecording() {
     DOM.recTimer.textContent = `${hrs}:${mins}:${secs}`;
   }, 500);
 
-  showToast(`🔴 MP3-opname gestart (${kbps} kbps)`);
+  showToast(`🔴 MP3-opname gestart voor ${State.currentStation.name}!`);
+
+  // Start live stream ingest (Direct of via streaming fallback)
+  captureLiveStreamAudio(State.currentStation.url, State.recAbortController.signal);
+}
+
+async function captureLiveStreamAudio(targetUrl, signal) {
+  let streamResponse = null;
+
+  // Probeer 1: Directe streaming fetch van de radiostroom
+  try {
+    streamResponse = await fetch(targetUrl, { signal });
+  } catch (err) {
+    if (signal.aborted) return;
+    console.warn("Direct stream fetch geblokkeerd door CORS, schakel over naar streaming proxy...", err);
+  }
+
+  // Probeer 2: CORS proxy streaming fallback als directe fetch faalt
+  if (!streamResponse || !streamResponse.ok || !streamResponse.body) {
+    try {
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+      streamResponse = await fetch(proxyUrl, { signal });
+    } catch (proxyErr) {
+      if (signal.aborted) return;
+      console.warn("Streaming proxy faalde:", proxyErr);
+    }
+  }
+
+  // Verwerk binnenkomende MP3 stream chunks in real-time
+  if (streamResponse && streamResponse.body) {
+    try {
+      const reader = streamResponse.body.getReader();
+      State.activeStreamReader = reader;
+
+      while (State.isRecording && !signal.aborted) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value && value.length > 0) {
+          State.recChunks.push(value);
+          State.recordedBytesEstimate += value.length;
+          updateRecordingStats();
+        }
+      }
+    } catch (readErr) {
+      if (!signal.aborted) {
+        console.warn("Stream reader onderbroken:", readErr);
+      }
+    }
+  } else {
+    // Probeer 3: MediaRecorder fallback via HTML5 audio capture
+    tryMediaRecorderFallback();
+  }
+}
+
+function tryMediaRecorderFallback() {
+  try {
+    let stream = null;
+    if (typeof DOM.audio.captureStream === "function") {
+      stream = DOM.audio.captureStream();
+    } else if (typeof DOM.audio.mozCaptureStream === "function") {
+      stream = DOM.audio.mozCaptureStream();
+    }
+
+    if (stream && window.MediaRecorder) {
+      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") 
+        ? "audio/webm;codecs=opus" 
+        : (MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "");
+      
+      State.mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+      State.mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          State.recChunks.push(e.data);
+          State.recordedBytesEstimate += e.data.size;
+          updateRecordingStats();
+        }
+      };
+      State.mediaRecorder.start(250);
+    }
+  } catch (e) {
+    console.warn("MediaRecorder fallback niet beschikbaar:", e);
+  }
 }
 
 function stopRecording() {
@@ -1882,34 +1922,37 @@ function stopRecording() {
 
   clearInterval(State.recordingTimerInterval);
 
-  // Ontkoppel en ruim node op
-  if (State.recorderNode) {
-    State.recorderNode.disconnect();
-    State.recorderNode.onaudioprocess = null;
-    State.recorderNode = null;
+  // Annuleer actieve streaming readers en abort controllers
+  if (State.recAbortController) {
+    State.recAbortController.abort();
+    State.recAbortController = null;
   }
-
-  // Sluit de MP3 encoder af en spoel de laatste buffer door
-  if (State.mp3Encoder) {
-    const endBuf = State.mp3Encoder.flush();
-    if (endBuf.length > 0) {
-      State.mp3DataChunks.push(endBuf);
-      State.recordedBytesEstimate += endBuf.length;
-    }
-    State.mp3Encoder = null;
+  if (State.activeStreamReader) {
+    try { State.activeStreamReader.cancel(); } catch (e) {}
+    State.activeStreamReader = null;
+  }
+  if (State.mediaRecorder && State.mediaRecorder.state !== "inactive") {
+    try { State.mediaRecorder.stop(); } catch (e) {}
+    State.mediaRecorder = null;
   }
 
   updateRecordingUI(false);
 
-  // Maak officiële MP3 Blob
-  const mp3Blob = new Blob(State.mp3DataChunks, { type: "audio/mp3" });
+  // Controleer of er data is opgenomen
+  if (!State.recChunks || State.recChunks.length === 0) {
+    showToast("⚠️ Geen audiogegevens ontvangen van deze stream tijdens opname.");
+    return;
+  }
+
+  // Maak authentieke MP3 audio Blob
+  const mp3Blob = new Blob(State.recChunks, { type: "audio/mp3" });
   const stationName = State.currentStation ? State.currentStation.name.replace(/[^a-zA-Z0-9_-]/g, "_") : "Radio";
   const dateStr = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
   const filename = `PeterVroonRadio_${stationName}_Opname_${dateStr}.mp3`;
   const durationSec = Math.floor((Date.now() - State.recordingStartTime) / 1000);
   const sizeMb = (mp3Blob.size / (1024 * 1024)).toFixed(2);
 
-  // Sla opname op in sessie
+  // Sla opname op in sessielijst
   const recRecord = {
     id: "rec_" + Date.now(),
     filename: filename,
@@ -1923,7 +1966,7 @@ function stopRecording() {
   State.savedRecordings.unshift(recRecord);
   renderRecordingsList();
 
-  showToast(`✅ Opname voltooid: ${filename} (${sizeMb} MB)`);
+  showToast(`✅ MP3-opname gereed: ${filename} (${sizeMb} MB)`);
 
   // Direct downloaden als checkbox aan staat
   if (DOM.chkAutoDownload.checked) {
@@ -1948,6 +1991,7 @@ function updateRecordingUI(active) {
     DOM.recTimer.textContent = "00:00:00";
     DOM.recSizeEstimate.textContent = "0.0 MB";
   }
+}
 }
 
 function updateRecordingStats() {

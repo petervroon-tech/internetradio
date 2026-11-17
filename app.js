@@ -900,8 +900,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // Stel standaard volume in
   DOM.audio.volume = 0.8;
 
-  // Selecteer standaard eerste station direct in de speler
-  if (State.stations.length > 0) {
+  // Onthoud en herstel het laatst gekozen station uit localStorage (in plaats van altijd NPO 3 / standaard)
+  const lastSavedStation = loadLastStation();
+  const savedContinent = localStorage.getItem("petervroon_last_continent");
+  const savedCountry = localStorage.getItem("petervroon_last_country");
+
+  if (savedContinent && CONTINENTS[savedContinent]) {
+    State.activeContinent = savedContinent;
+    document.querySelectorAll(".continent-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.continent === savedContinent);
+    });
+    if (DOM.continentSelect) DOM.continentSelect.value = savedContinent;
+    populateCountrySelect();
+  }
+  if (savedCountry) {
+    State.activeCountry = savedCountry;
+    if (DOM.countrySelect) DOM.countrySelect.value = savedCountry;
+  }
+
+  if (lastSavedStation) {
+    State.currentStation = lastSavedStation;
+    if (!State.stations.some(s => s.id === lastSavedStation.id)) {
+      State.stations.unshift(lastSavedStation);
+    }
+    filterStations();
+    updatePlayerUI();
+  } else if (State.stations.length > 0) {
     State.currentStation = State.stations[0];
     updatePlayerUI();
   }
@@ -1453,6 +1477,7 @@ function playStation(station, isSilentAuto = false) {
 
   State.currentStation = station;
   State.isBuffering = true;
+  saveLastStation(station);
   updatePlayerUI();
 
   // Reset en laad audio rechtstreeks zonder blokkerende CORS restrictie
@@ -1988,8 +2013,38 @@ function triggerFileDownload(blobUrl, filename) {
 }
 
 // ==========================================================================
-// 11. Favorieten Beheer (LocalStorage)
+// 11. Onthouden van Laatst Gekozen Station & Favorieten Beheer (LocalStorage)
 // ==========================================================================
+function saveLastStation(station) {
+  if (!station || !station.url) return;
+  try {
+    localStorage.setItem("petervroon_last_station", JSON.stringify(station));
+    if (State.activeContinent) {
+      localStorage.setItem("petervroon_last_continent", State.activeContinent);
+    }
+    if (State.activeCountry) {
+      localStorage.setItem("petervroon_last_country", State.activeCountry);
+    }
+  } catch (err) {
+    console.warn("Kon laatste station niet opslaan:", err);
+  }
+}
+
+function loadLastStation() {
+  try {
+    const saved = localStorage.getItem("petervroon_last_station");
+    if (saved) {
+      const station = JSON.parse(saved);
+      if (station && station.url) {
+        return station;
+      }
+    }
+  } catch (err) {
+    console.warn("Kon laatste station niet laden:", err);
+  }
+  return null;
+}
+
 function loadSavedFavorites() {
   try {
     const saved = localStorage.getItem("radio_favorites_v1");

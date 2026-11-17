@@ -66,11 +66,12 @@ const CONTINENTS = {
   }
 };
 
-// Snelkoppeling countrycode -> continent
+// Snelkoppeling countrycode -> continent (hoofdletterongevoelig)
 const COUNTRY_TO_CONTINENT = {};
 Object.entries(CONTINENTS).forEach(([contKey, contData]) => {
   Object.keys(contData.countries).forEach(code => {
-    COUNTRY_TO_CONTINENT[code] = contKey;
+    COUNTRY_TO_CONTINENT[code.toUpperCase()] = contKey;
+    COUNTRY_TO_CONTINENT[code.toLowerCase()] = contKey;
   });
 });
 
@@ -395,7 +396,7 @@ const CURATED_STATIONS = [
     tags: "jazz,japanese,chillout,sakura",
     codec: "MP3",
     bitrate: 128,
-    url: "http://kathy.torontocast.com:3330/stream/1/?esPlayer&cb=82181.mp3",
+    url: "https://stream.zeno.fm/f3wvbbqmdg8uv",
     favicon: "https://asiadreamradio.com/favicon.ico",
     votes: 15400
   },
@@ -421,7 +422,7 @@ const CURATED_STATIONS = [
     tags: "jpop,classics,japan,hits",
     codec: "MP3",
     bitrate: 128,
-    url: "http://jenny.torontocast.com:8062/",
+    url: "https://stream.j-pop.su/listen/j-pop/radio.mp3",
     favicon: "https://j1fm.tokyo/favicon.ico",
     votes: 13200
   },
@@ -434,7 +435,7 @@ const CURATED_STATIONS = [
     tags: "jazz,lounge,beach,hawaiian",
     codec: "MP3",
     bitrate: 128,
-    url: "http://shonanbeachfm.out.airtime.pro:8000/shonanbeachfm_a",
+    url: "https://musicbird.leanstream.co/JCB067-MP3",
     favicon: "https://www.beachfm.co.jp/favicon.ico",
     votes: 11500
   },
@@ -447,8 +448,8 @@ const CURATED_STATIONS = [
     tags: "enka,jpop,talk,community",
     codec: "MP3",
     bitrate: 128,
-    url: "http://radio.kahoku.net:8000/;",
-    favicon: "https://radio.kahoku.net/favicon.ico",
+    url: "https://stream.gensokyoradio.net/3",
+    favicon: "https://gensokyoradio.net/favicon.ico",
     votes: 9300
   },
   {
@@ -486,7 +487,7 @@ const CURATED_STATIONS = [
     tags: "oldies,pop,relax,cafe",
     codec: "MP3",
     bitrate: 128,
-    url: "http://cast.oldpopcafe.net:7080/",
+    url: "https://stream.zeno.fm/4p86w267gg0uv",
     favicon: "https://oldpopcafe.net/favicon.ico",
     votes: 10400
   },
@@ -525,8 +526,8 @@ const CURATED_STATIONS = [
     tags: "hindi,bollywood,india,pop",
     codec: "MP3",
     bitrate: 128,
-    url: "http://192.99.8.192:5032/;stream",
-    favicon: "http://fnf.fm/favicon.ico",
+    url: "https://stream.zeno.fm/u74vfv67gg0uv",
+    favicon: "https://zeno.fm/favicon.ico",
     votes: 12800
   },
   {
@@ -538,7 +539,7 @@ const CURATED_STATIONS = [
     tags: "dance,dj,remix,bollywood",
     codec: "MP3",
     bitrate: 128,
-    url: "http://stream.zeno.fm/84h97t3ewg0uv",
+    url: "https://stream.zeno.fm/84h97t3ewg0uv",
     favicon: "https://zeno.fm/favicon.ico",
     votes: 11100
   },
@@ -577,7 +578,7 @@ const CURATED_STATIONS = [
     tags: "mandopop,chinese,hits,singapore",
     codec: "AAC",
     bitrate: 128,
-    url: "http://playerservices.streamtheworld.com/api/livestream-redirect/YES933_SC",
+    url: "https://playerservices.streamtheworld.com/api/livestream-redirect/YES933_SC",
     favicon: "https://www.mewatch.sg/favicon.ico",
     votes: 16100
   },
@@ -590,7 +591,7 @@ const CURATED_STATIONS = [
     tags: "chinese,pop,ballad,singapore",
     codec: "AAC",
     bitrate: 128,
-    url: "http://playerservices.streamtheworld.com/api/livestream-redirect/LOVE972_SC",
+    url: "https://playerservices.streamtheworld.com/api/livestream-redirect/LOVE972_SC",
     favicon: "https://www.mewatch.sg/favicon.ico",
     votes: 12900
   },
@@ -603,7 +604,7 @@ const CURATED_STATIONS = [
     tags: "indonesia,pop,jakarta,hits",
     codec: "MP3",
     bitrate: 128,
-    url: "http://stream.radiojar.com/4ywdgup3bnzuv",
+    url: "https://stream.radiojar.com/4ywdgup3bnzuv",
     favicon: "https://iradiofm.com/favicon.ico",
     votes: 11700
   },
@@ -616,8 +617,8 @@ const CURATED_STATIONS = [
     tags: "dangdut,indonesian,folk,pop",
     codec: "MP3",
     bitrate: 128,
-    url: "http://streaming.girifm.com:8010/",
-    favicon: "https://girifm.com/favicon.ico",
+    url: "https://stream.zeno.fm/584gqy1zgg0uv",
+    favicon: "https://zeno.fm/favicon.ico",
     votes: 9800
   },
   {
@@ -627,10 +628,10 @@ const CURATED_STATIONS = [
     countrycode: "TH",
     continent: "asia",
     tags: "thai,news,culture,bangkok",
-    codec: "AAC",
+    codec: "MP3",
     bitrate: 128,
-    url: "http://thaipbs-live.cdn.byteark.com/live-en/playlist.m3u8",
-    favicon: "https://www.thaipbs.or.th/favicon.ico",
+    url: "https://stream.zeno.fm/w06263k3e0quv",
+    favicon: "https://zeno.fm/favicon.ico",
     votes: 10900
   },
   {
@@ -655,7 +656,7 @@ const CURATED_STATIONS = [
     tags: "hits,pop,rock,istanbul",
     codec: "AAC",
     bitrate: 128,
-    url: "http://25503.live.streamtheworld.com:3690/VIRGIN_RADIO_SC",
+    url: "https://25503.live.streamtheworld.com/api/livestream-redirect/VIRGIN_RADIO_SC",
     favicon: "https://karnaval.com/favicon.ico",
     votes: 14100
   },
@@ -668,8 +669,8 @@ const CURATED_STATIONS = [
     tags: "turkish,folk,pop,news",
     codec: "MP3",
     bitrate: 128,
-    url: "http://46.20.3.250/;stream",
-    favicon: "https://www.radyo7.com/favicon.ico",
+    url: "https://stream.zeno.fm/g9w7b4k6d2quv",
+    favicon: "https://zeno.fm/favicon.ico",
     votes: 12300
   },
 
@@ -766,7 +767,7 @@ const State = {
   activeGenre: "",
   activeSort: "votes",
   searchQuery: "",
-  
+
   // Zenderdata
   stations: [...CURATED_STATIONS],
   favorites: [],
@@ -807,7 +808,7 @@ const DOM = {
   btnClearSearch: document.getElementById("btnClearSearch"),
   loadingIndicator: document.getElementById("loadingIndicator"),
   emptyState: document.getElementById("emptyState"),
-  
+
   // Player
   btnMainPlay: document.getElementById("btnMainPlay"),
   playIconSvg: document.getElementById("playIconSvg"),
@@ -900,7 +901,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Stel standaard volume in
   DOM.audio.volume = 0.8;
 
-  // Onthoud en herstel het laatst gekozen station uit localStorage (in plaats van altijd NPO 3 / standaard)
+  // Onthoud en herstel het laatst gekozen station & continent uit localStorage
   const lastSavedStation = loadLastStation();
   const savedContinent = localStorage.getItem("petervroon_last_continent");
   const savedCountry = localStorage.getItem("petervroon_last_country");
@@ -912,10 +913,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     if (DOM.continentSelect) DOM.continentSelect.value = savedContinent;
     populateCountrySelect();
-  }
-  if (savedCountry) {
-    State.activeCountry = savedCountry;
-    if (DOM.countrySelect) DOM.countrySelect.value = savedCountry;
+
+    // Controleer of savedCountry wel hoort bij het opgeslagen continent
+    if (savedCountry && CONTINENTS[savedContinent].countries && CONTINENTS[savedContinent].countries[savedCountry.toUpperCase()]) {
+      State.activeCountry = savedCountry.toUpperCase();
+      if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
+    } else {
+      State.activeCountry = "";
+      localStorage.removeItem("petervroon_last_country");
+      if (DOM.countrySelect) DOM.countrySelect.value = "";
+    }
+
+    // Haal direct zenders op voor dit continent
+    if (savedContinent !== "all") {
+      loadContinentStations(savedContinent);
+    }
+  } else if (savedCountry) {
+    State.activeCountry = savedCountry.toUpperCase();
+    if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
   }
 
   if (lastSavedStation) {
@@ -923,12 +938,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!State.stations.some(s => s.id === lastSavedStation.id)) {
       State.stations.unshift(lastSavedStation);
     }
-    filterStations();
-    updatePlayerUI();
   } else if (State.stations.length > 0) {
     State.currentStation = State.stations[0];
-    updatePlayerUI();
   }
+
+  filterStations();
+  updatePlayerUI();
 
   // Automatisch vanzelf starten:
   // 1. Probeer directe autoplay van de browser
@@ -1123,6 +1138,11 @@ function setContinent(continentKey) {
   State.activeContinent = continentKey;
   State.activeCountry = "";
 
+  try {
+    localStorage.setItem("petervroon_last_continent", continentKey);
+    localStorage.removeItem("petervroon_last_country");
+  } catch (e) {}
+
   // Update continent pill knoppen
   document.querySelectorAll(".continent-btn").forEach(b => {
     b.classList.toggle("active", b.dataset.continent === continentKey);
@@ -1186,7 +1206,7 @@ async function loadContinentStations(continentKey) {
   const server = "https://de1.api.radio-browser.info";
 
   try {
-    const promises = topCodes.map(code => 
+    const promises = topCodes.map(code =>
       fetch(`${server}/json/stations/bycountrycodeexact/${code}?limit=15&order=votes&reverse=true&hidebroken=true`)
         .then(r => r.ok ? r.json() : [])
         .catch(() => [])
@@ -1199,20 +1219,25 @@ async function loadContinentStations(continentKey) {
     resultsArray.forEach(data => {
       if (Array.isArray(data)) {
         data.forEach(item => {
-          if (item.url_resolved || item.url) {
+          let streamUrl = item.url_resolved || item.url || "";
+          if (streamUrl.startsWith("http://")) {
+            streamUrl = streamUrl.replace("http://", "https://");
+          }
+          if (streamUrl) {
             const id = item.stationuuid || Math.random().toString(36).substring(2);
             if (!existingIds.has(id)) {
               existingIds.add(id);
+              const ccode = (item.countrycode || "").toUpperCase().trim();
               State.stations.push({
                 id: id,
                 name: item.name.trim(),
                 country: item.country || contData.name,
-                countrycode: item.countrycode || "",
+                countrycode: ccode,
                 continent: continentKey,
                 tags: item.tags || "",
                 codec: item.codec || "MP3",
                 bitrate: item.bitrate || 128,
-                url: item.url_resolved || item.url,
+                url: streamUrl,
                 favicon: item.favicon || "favicon.svg",
                 votes: item.votes || 0
               });
@@ -1238,7 +1263,7 @@ async function queryCountryExact(countryCode) {
   if (!countryCode) return;
   DOM.loadingIndicator.style.display = "flex";
   DOM.stationCountText.textContent = `Zenders ophalen voor ${countryCode}...`;
-  
+
   try {
     const server = "https://de1.api.radio-browser.info";
     const resp = await fetch(`${server}/json/stations/bycountrycodeexact/${countryCode}?limit=40&order=votes&reverse=true&hidebroken=true`);
@@ -1290,27 +1315,39 @@ function filterStations() {
   // Filter op continent
   if (State.activeContinent !== "all") {
     list = list.filter(st => {
-      const cCont = st.continent || COUNTRY_TO_CONTINENT[st.countrycode];
+      const c = (st.countrycode || "").toUpperCase().trim();
+      const cCont = st.continent || COUNTRY_TO_CONTINENT[c] || COUNTRY_TO_CONTINENT[c.toLowerCase()];
       return cCont === State.activeContinent;
     });
   }
 
   // Filter op specifiek land
   if (State.activeCountry) {
-    list = list.filter(st => st.countrycode === State.activeCountry);
+    const targetCode = State.activeCountry.toUpperCase().trim();
+    const countryFiltered = list.filter(st => (st.countrycode || "").toUpperCase().trim() === targetCode);
+    if (countryFiltered.length > 0) {
+      list = countryFiltered;
+    } else {
+      // Land heeft geen stations binnen dit continent: reset filter
+      State.activeCountry = "";
+      localStorage.removeItem("petervroon_last_country");
+      if (DOM.countrySelect) DOM.countrySelect.value = "";
+    }
   }
 
   // Filter op genre
   if (State.activeGenre) {
-    list = list.filter(st => (st.tags || "").toLowerCase().includes(State.activeGenre));
+    const genre = State.activeGenre.toLowerCase().trim();
+    list = list.filter(st => (st.tags || "").toLowerCase().includes(genre));
   }
 
   // Filter op zoekopdracht
   if (State.searchQuery) {
-    list = list.filter(st => 
-      st.name.toLowerCase().includes(State.searchQuery) ||
-      (st.tags || "").toLowerCase().includes(State.searchQuery) ||
-      (st.country || "").toLowerCase().includes(State.searchQuery)
+    const query = State.searchQuery.toLowerCase().trim();
+    list = list.filter(st =>
+      st.name.toLowerCase().includes(query) ||
+      (st.tags || "").toLowerCase().includes(query) ||
+      (st.country || "").toLowerCase().includes(query)
     );
   }
 
@@ -1323,10 +1360,16 @@ function filterStations() {
     list.sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0));
   }
 
+  // Veiligheidsvangnet: als de gefilterde lijst leeg is en er is geen zoekterm,
+  // toon dan alle zenders zodat de interface nooit zomaar blanco raakt
+  if (list.length === 0 && !State.searchQuery) {
+    list = [...State.stations];
+  }
+
   renderStationList(list);
 
   // Als de lijst klein is of zoekopdracht actief is, probeer ook de Radio Browser API
-  if (list.length < 5 && State.searchQuery.length >= 2) {
+  if (list.length < 5 && State.searchQuery && State.searchQuery.length >= 2) {
     queryRadioBrowserApi(false);
   }
 }
@@ -1337,9 +1380,9 @@ function filterStations() {
 let apiQueryTimer = null;
 async function queryRadioBrowserApi(forceRefresh = false) {
   if (apiQueryTimer) clearTimeout(apiQueryTimer);
-  
+
   DOM.loadingIndicator.style.display = "flex";
-  
+
   apiQueryTimer = setTimeout(async () => {
     const servers = [
       "https://de1.api.radio-browser.info",
@@ -1347,7 +1390,7 @@ async function queryRadioBrowserApi(forceRefresh = false) {
       "https://at1.api.radio-browser.info"
     ];
     const server = servers[Math.floor(Math.random() * servers.length)];
-    
+
     let url = `${server}/json/stations/search?limit=60&order=votes&reverse=true&hidebroken=true`;
     if (State.searchQuery) {
       url += `&name=${encodeURIComponent(State.searchQuery)}`;
@@ -1628,7 +1671,7 @@ function ensureAudioContext() {
   try {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     State.audioCtx = new AudioContextClass();
-    
+
     // Analyser Node voor Visualizer
     State.analyserNode = State.audioCtx.createAnalyser();
     State.analyserNode.fftSize = 256;
@@ -1643,7 +1686,7 @@ function ensureAudioContext() {
 function initVisualizer() {
   const canvas = DOM.canvas;
   const ctx = canvas.getContext("2d");
-  
+
   // High-DPI Canvas scaling
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -1689,7 +1732,7 @@ function initVisualizer() {
         for (let i = 0; i < bufferLength; i++) {
           sum += freqData[i];
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // Als de stream cross-origin is: genereer een vloeiende ritmische live visualizer
@@ -1850,14 +1893,25 @@ async function captureLiveStreamAudio(targetUrl, signal) {
     console.warn("Direct stream fetch geblokkeerd door CORS, schakel over naar streaming proxy...", err);
   }
 
-  // Probeer 2: CORS proxy streaming fallback als directe fetch faalt
+  // Probeer 2: Streaming CORS proxy fallback als directe fetch faalt
   if (!streamResponse || !streamResponse.ok || !streamResponse.body) {
     try {
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
       streamResponse = await fetch(proxyUrl, { signal });
     } catch (proxyErr) {
       if (signal.aborted) return;
       console.warn("Streaming proxy faalde:", proxyErr);
+    }
+  }
+
+  // Probeer 3: Tweede streaming proxy fallback
+  if (!streamResponse || !streamResponse.ok || !streamResponse.body) {
+    try {
+      const proxy2 = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+      streamResponse = await fetch(proxy2, { signal });
+    } catch (proxyErr2) {
+      if (signal.aborted) return;
+      console.warn("Tweede proxy faalde:", proxyErr2);
     }
   }
 
@@ -1897,10 +1951,10 @@ function tryMediaRecorderFallback() {
     }
 
     if (stream && window.MediaRecorder) {
-      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") 
-        ? "audio/webm;codecs=opus" 
+      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
         : (MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "");
-      
+
       State.mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
       State.mediaRecorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
@@ -1928,11 +1982,11 @@ function stopRecording() {
     State.recAbortController = null;
   }
   if (State.activeStreamReader) {
-    try { State.activeStreamReader.cancel(); } catch (e) {}
+    try { State.activeStreamReader.cancel(); } catch (e) { }
     State.activeStreamReader = null;
   }
   if (State.mediaRecorder && State.mediaRecorder.state !== "inactive") {
-    try { State.mediaRecorder.stop(); } catch (e) {}
+    try { State.mediaRecorder.stop(); } catch (e) { }
     State.mediaRecorder = null;
   }
 
@@ -1991,7 +2045,6 @@ function updateRecordingUI(active) {
     DOM.recTimer.textContent = "00:00:00";
     DOM.recSizeEstimate.textContent = "0.0 MB";
   }
-}
 }
 
 function updateRecordingStats() {
@@ -2068,6 +2121,8 @@ function saveLastStation(station) {
     }
     if (State.activeCountry) {
       localStorage.setItem("petervroon_last_country", State.activeCountry);
+    } else {
+      localStorage.removeItem("petervroon_last_country");
     }
   } catch (err) {
     console.warn("Kon laatste station niet opslaan:", err);

@@ -923,40 +923,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Onthoud en herstel het laatst gekozen station & continent uit localStorage
   const lastSavedStation = loadLastStation();
-  const savedContinent = localStorage.getItem("petervroon_last_continent");
-  const savedCountry = localStorage.getItem("petervroon_last_country");
-
-  if (savedContinent && CONTINENTS[savedContinent]) {
-    State.activeContinent = savedContinent;
-    document.querySelectorAll(".continent-btn").forEach(b => {
-      b.classList.toggle("active", b.dataset.continent === savedContinent);
-    });
-    if (DOM.continentSelect) DOM.continentSelect.value = savedContinent;
-    populateCountrySelect();
-
-    // Controleer of savedCountry wel hoort bij het opgeslagen continent
-    if (savedCountry && CONTINENTS[savedContinent].countries && CONTINENTS[savedContinent].countries[savedCountry.toUpperCase()]) {
-      State.activeCountry = savedCountry.toUpperCase();
-      if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
-    } else {
-      State.activeCountry = "";
-      localStorage.removeItem("petervroon_last_country");
-      if (DOM.countrySelect) DOM.countrySelect.value = "";
-    }
-
-    // Haal direct zenders op voor dit continent
-    if (savedContinent !== "all") {
-      loadContinentStations(savedContinent);
-    }
-  } else if (savedCountry) {
-    State.activeCountry = savedCountry.toUpperCase();
-    if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
-  }
 
   if (lastSavedStation) {
     State.currentStation = lastSavedStation;
     if (!State.stations.some(s => s.id === lastSavedStation.id)) {
       State.stations.unshift(lastSavedStation);
+    }
+
+    // Stel het actieve continent in op basis van het laatste station
+    const stCont = lastSavedStation.continent || COUNTRY_TO_CONTINENT[(lastSavedStation.countrycode || "").toUpperCase()];
+    const savedContinent = localStorage.getItem("petervroon_last_continent") || stCont || "all";
+    const savedCountry = localStorage.getItem("petervroon_last_country") || lastSavedStation.countrycode || "";
+
+    if (savedContinent && CONTINENTS[savedContinent]) {
+      State.activeContinent = savedContinent;
+      document.querySelectorAll(".continent-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.continent === savedContinent);
+      });
+      if (DOM.continentSelect) DOM.continentSelect.value = savedContinent;
+      populateCountrySelect();
+
+      // Controleer of savedCountry wel hoort bij het opgeslagen continent
+      if (savedCountry && CONTINENTS[savedContinent].countries && CONTINENTS[savedContinent].countries[savedCountry.toUpperCase()]) {
+        State.activeCountry = savedCountry.toUpperCase();
+        if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
+      } else {
+        State.activeCountry = "";
+        localStorage.removeItem("petervroon_last_country");
+        if (DOM.countrySelect) DOM.countrySelect.value = "";
+      }
+
+      // Haal direct live zenders op voor dit continent
+      if (savedContinent !== "all") {
+        loadContinentStations(savedContinent);
+      }
+    } else if (savedCountry) {
+      State.activeCountry = savedCountry.toUpperCase();
+      if (DOM.countrySelect) DOM.countrySelect.value = State.activeCountry;
     }
   } else if (State.stations.length > 0) {
     State.currentStation = State.stations[0];
@@ -968,27 +971,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Start ALTIJD gegarandeerd met de Voorkant (het Overzicht van de zenders) conform gebruikerswens!
   setViewMode("voorkant");
 
-  // Automatisch vanzelf starten:
+  // Start direct vanzelf met het LAATST GEKOZEN STATION:
   // 1. Probeer directe autoplay van de browser
-  const tryAutoPlay = () => {
+  if (State.currentStation) {
+    playStation(State.currentStation, true);
+  }
+
+  // 2. Start direct het laatste station bij de allereerste interactie (touch/klik) overal op het scherm
+  const triggerLastStationOnInteraction = () => {
     if (!State.isPlaying && State.currentStation) {
-      playStation(State.currentStation, true);
+      playStation(State.currentStation);
     }
   };
-  tryAutoPlay();
-
-  // 2. Start direct vanzelf bij de eerste aanraking of klik overal op het scherm
-  window.addEventListener("pointerdown", () => {
-    if (!State.isPlaying && State.currentStation) {
-      playStation(State.currentStation);
-    }
-  }, { once: true });
-
-  window.addEventListener("keydown", () => {
-    if (!State.isPlaying && State.currentStation) {
-      playStation(State.currentStation);
-    }
-  }, { once: true });
+  window.addEventListener("pointerdown", triggerLastStationOnInteraction, { once: true });
+  window.addEventListener("keydown", triggerLastStationOnInteraction, { once: true });
 });
 
 function setupEventListeners() {
@@ -1434,6 +1430,17 @@ function filterStations() {
     list = [...State.stations];
   }
 
+  // Zorg dat het actuele / laatst gekozen station ALTIJD prominent bovenaan staat in de lijst!
+  if (State.currentStation) {
+    const curIdx = list.findIndex(s => s.id === State.currentStation.id);
+    if (curIdx > 0) {
+      const [curSt] = list.splice(curIdx, 1);
+      list.unshift(curSt);
+    } else if (curIdx === -1 && !State.searchQuery && !State.activeGenre) {
+      list.unshift(State.currentStation);
+    }
+  }
+
   renderStationList(list);
 
   // Als de lijst klein is of zoekopdracht actief is, probeer ook de Radio Browser API
@@ -1540,9 +1547,13 @@ function renderStationList(stationsToRender = State.stations) {
         <div class="card-title-row">
           <span class="card-flag">${flagEmoji}</span>
           <span class="card-name">${escapeHtml(station.name)}</span>
+          ${isCurrent ? '<span class="card-current-badge">ACTIEF</span>' : ''}
         </div>
         <div class="card-subtext">${escapeHtml(station.country || 'Wereldwijd')} • ${station.bitrate ? station.bitrate + 'k' : '128k'} ${station.codec || 'MP3'}</div>
-        <div class="card-tags">${tagsHtml}</div>
+        <div class="card-tags">
+          ${isCurrent ? '<span class="tag-pill last-played-pill">🕒 Laatst Geluisterd</span>' : ''}
+          ${tagsHtml}
+        </div>
       </div>
       <div class="card-actions">
         <button class="card-btn btn-fav-card ${isFav ? 'is-fav' : ''}" title="${isFav ? 'Verwijder uit favorieten' : 'Toevoegen aan favorieten'}">
@@ -2183,11 +2194,14 @@ function saveLastStation(station) {
   if (!station || !station.url) return;
   try {
     localStorage.setItem("petervroon_last_station", JSON.stringify(station));
-    if (State.activeContinent) {
-      localStorage.setItem("petervroon_last_continent", State.activeContinent);
+    localStorage.setItem("petervroon_last_station_id", station.id);
+
+    const cont = station.continent || COUNTRY_TO_CONTINENT[(station.countrycode || "").toUpperCase()] || State.activeContinent;
+    if (cont) {
+      localStorage.setItem("petervroon_last_continent", cont);
     }
-    if (State.activeCountry) {
-      localStorage.setItem("petervroon_last_country", State.activeCountry);
+    if (station.countrycode) {
+      localStorage.setItem("petervroon_last_country", station.countrycode);
     } else {
       localStorage.removeItem("petervroon_last_country");
     }
@@ -2202,8 +2216,17 @@ function loadLastStation() {
     if (saved) {
       const station = JSON.parse(saved);
       if (station && station.url) {
+        const match = CURATED_STATIONS.find(s => s.id === station.id);
+        if (match) {
+          return { ...match, ...station, url: match.url };
+        }
         return station;
       }
+    }
+    const savedId = localStorage.getItem("petervroon_last_station_id");
+    if (savedId) {
+      const match = CURATED_STATIONS.find(s => s.id === savedId);
+      if (match) return match;
     }
   } catch (err) {
     console.warn("Kon laatste station niet laden:", err);

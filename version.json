@@ -1,10 +1,11 @@
 {
   "app_name": "PeterVroon Radio",
-  "version": "1.0.9",
-  "build": 10,
-  "timestamp": "2026-11-17T08:23:48.001177+00:00",
-  "git_hash": "aee48aa",
+  "version": "1.1.0",
+  "build": 11,
+  "timestamp": "2026-11-17T08:29:43.234129+00:00",
+  "git_hash": "abee25e",
   "features": [
+    "💾 Gegarandeerd Starten met Laatst Gekozen Station (v1.1.0): PeterVroon Radio start nu altijd direct met het radiostation dat u het laatst beluisterd heeft. Het laatste station staat direct bovenaan het overzicht gemarkeerd met een gouden '🕒 Laatst Geluisterd' en 'ACTIEF' badge, het bijbehorende continent wordt automatisch ingesteld, en de audio start direct vanzelf.",
     "📻 Altijd Starten met Voorkant (Zenderoverzicht) (v1.0.9): PeterVroon Radio start nu gegarandeerd met de 'Voorkant': het volledige, ruime zenderoverzicht met continenten, genres en live zenders. U ziet bij het opstarten niet langer de technische achterkant (speler, visualizer en studio). Inclusief 1-klik navigatieschakelaar (Voorkant / Achterkant / Split) en een zwevende mini-speler HUD onderin.",
     "🔊 Volledig Herstel Zenderlijst & Audio (v1.0.8): Oplossing voor het verdwijnen van de zenderlijst en uitvallen van geluid. Syntaxisfout geëlimineerd, alle curated stations en Aziatische streams geüpgraded naar 100% beveiligde HTTPS-verbindingen (waardoor mixed-content browserblokkades zijn opgeheven), en robuuste filterbeveiliging toegevoegd zodat stationslijsten altijd compleet en direct hoorbaar blijven.",
     "💾 Onthouden van Laatst Gekozen Station (v1.0.7): PeterVroon Radio onthoudt nu automatisch uw laatst beluisterde radiostation, continent en land in LocalStorage. Bij het opnieuw openen of herladen van de app start direct uw eigen gekozen zender in plaats van telkens terug te vallen op NPO.",

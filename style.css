@@ -675,6 +675,25 @@ body {
   color: var(--accent-amber);
 }
 
+.card-current-badge {
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 242, 254, 0.2);
+  color: var(--primary-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.4);
+  margin-left: auto;
+  letter-spacing: 0.5px;
+}
+
+.last-played-pill {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(251, 191, 36, 0.25)) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
+  font-weight: 700 !important;
+}
+
 /* Empty & Loading States */
 .loading-state, .empty-state {
   display: flex;

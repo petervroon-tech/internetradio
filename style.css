@@ -2020,3 +2020,217 @@ body {
     margin-bottom: 0;
   }
 }
+
+/* ==========================================================================
+   14. Alle Genres Verkenner & Loze Links Stijlen (v1.2.0)
+   ========================================================================== */
+
+/* Alle Genres Knop in Filterbalk */
+.all-genres-filter-btn {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(6, 182, 212, 0.16)) !important;
+  border: 1px solid rgba(167, 139, 250, 0.45) !important;
+  color: #e0e7ff !important;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px !important;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.all-genres-filter-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(6, 182, 212, 0.26)) !important;
+  border-color: rgba(192, 132, 252, 0.7) !important;
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.35);
+  transform: translateY(-1px);
+}
+.all-genres-filter-btn.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.45), rgba(6, 182, 212, 0.35)) !important;
+  border-color: #a78bfa !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+}
+.genres-badge-counter {
+  background: rgba(167, 139, 250, 0.28);
+  color: #c4b5fd;
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+}
+
+/* Meer Genres Pill in Scrollbar */
+.genre-more-pill {
+  background: rgba(139, 92, 246, 0.12) !important;
+  border-color: rgba(167, 139, 250, 0.4) !important;
+  color: #c4b5fd !important;
+  font-weight: 700 !important;
+}
+.genre-more-pill:hover {
+  background: rgba(139, 92, 246, 0.25) !important;
+  border-color: #c084fc !important;
+  color: #ffffff !important;
+}
+
+/* Modal Genres Sheet */
+.modal-genres-sheet {
+  max-width: 900px !important;
+  width: 95%;
+  max-height: 88vh !important;
+}
+.genres-modal-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+.genres-search-box {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  transition: all var(--transition-fast);
+}
+.genres-search-box:focus-within {
+  border-color: rgba(167, 139, 250, 0.6);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.25);
+}
+.genres-search-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-family: inherit;
+}
+.genres-search-box input::placeholder {
+  color: var(--text-dim);
+}
+.sub-pill {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.72rem;
+  padding: 6px 12px;
+}
+.sub-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+/* Matrix Categorieën & Chips */
+.genres-modal-content {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.genre-category-block {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+.genre-category-block:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+.genre-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #e0e7ff;
+  letter-spacing: 0.3px;
+}
+.genre-category-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.genre-category-count {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+.genre-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.genre-chip {
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+.genre-chip:hover {
+  color: var(--text-main);
+  background: rgba(167, 139, 250, 0.16);
+  border-color: rgba(167, 139, 250, 0.45);
+  transform: translateY(-1px);
+}
+.genre-chip.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(6, 182, 212, 0.3)) !important;
+  color: #ffffff !important;
+  border-color: #a78bfa !important;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.4);
+}
+.genre-chip-icon {
+  font-size: 0.8rem;
+}
+
+/* Loze Links & Stream Offline Indicatoren */
+.station-card.broken-stream {
+  opacity: 0.58;
+  filter: grayscale(0.2);
+  border-color: rgba(239, 68, 68, 0.28) !important;
+}
+.station-card.broken-stream:hover {
+  opacity: 0.85;
+}
+.broken-stream-badge {
+  background: rgba(239, 68, 68, 0.22);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 4px;
+}
+

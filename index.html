@@ -121,6 +121,13 @@
           </div>
 
           <div class="filter-row">
+            <!-- Alle Genres 1-klik knop conform gebruikerswens -->
+            <button id="btnAllGenres" class="pill-btn all-genres-filter-btn" title="Toon alle genres in 1 klik (Rock, Country, Gospel, New Wave, Prog Rock, etc.)">
+              <span class="pill-icon">🎸</span>
+              <span class="all-genres-btn-text">Alle Genres</span>
+              <span class="genres-badge-counter">40+</span>
+            </button>
+
             <!-- Continentenselectie dropdown -->
             <div class="custom-select-wrapper">
               <select id="continentSelect" class="pill-select" aria-label="Kies een continent">
@@ -151,18 +158,23 @@
             </div>
           </div>
 
-          <!-- Genre Snelfilters -->
+          <!-- Genre Snelfilters met directe toegang tot favorieten van gebruiker -->
           <div class="genre-scroll-bar">
-            <button class="genre-pill active" data-genre="">Alle Genres</button>
+            <button class="genre-pill active" data-genre="">Alle Zenders</button>
+            <button class="genre-pill" data-genre="rock">🎸 Rock</button>
+            <button class="genre-pill" data-genre="prog rock">🎹 Prog Rock</button>
+            <button class="genre-pill" data-genre="new wave">⚡ New Wave</button>
+            <button class="genre-pill" data-genre="country">🤠 Country</button>
+            <button class="genre-pill" data-genre="gospel">✨ Gospel</button>
             <button class="genre-pill" data-genre="pop">Pop</button>
-            <button class="genre-pill" data-genre="rock">Rock</button>
-            <button class="genre-pill" data-genre="news">Nieuws & Praat</button>
-            <button class="genre-pill" data-genre="jazz">Jazz</button>
-            <button class="genre-pill" data-genre="classical">Klassiek</button>
-            <button class="genre-pill" data-genre="electronic">Electronic & Dance</button>
-            <button class="genre-pill" data-genre="ambient">Lounge & Chill</button>
-            <button class="genre-pill" data-genre="80s">80s & 90s</button>
-            <button class="genre-pill" data-genre="hiphop">Hip Hop</button>
+            <button class="genre-pill" data-genre="jazz">🎷 Jazz</button>
+            <button class="genre-pill" data-genre="blues">Blues</button>
+            <button class="genre-pill" data-genre="classical">🎻 Klassiek</button>
+            <button class="genre-pill" data-genre="electronic">🎧 Electronic</button>
+            <button class="genre-pill" data-genre="ambient">Chill & Lounge</button>
+            <button class="genre-pill" data-genre="80s">🕺 80s & 90s</button>
+            <button class="genre-pill" data-genre="news">📰 Nieuws</button>
+            <button id="btnOpenGenresModal" class="genre-pill genre-more-pill" title="Toon alle 40+ genres in de Genre Verkenner">+ Alle Genres (40+)...</button>
           </div>
 
           <!-- Status en teller -->
@@ -503,6 +515,43 @@
           <span id="footerVerNote" class="footer-note">PeterVroon Radio • v1.0.5 Build 6 • GitHub Pages Online
             Editie</span>
           <button id="btnModalCloseDone" class="pill-btn primary-pill">Begrepen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎸 ALLE GENRES VERKENNER MODAL (1-KLIK OVERZICHT) -->
+    <div id="genresModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true"
+      aria-labelledby="genresModalTitle">
+      <div class="modal-sheet modal-genres-sheet">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-icon">🎸</span>
+            <div>
+              <h2 id="genresModalTitle" class="modal-title">Alle Muziekgenres & Radiocategorieën</h2>
+              <span id="genresModalBadge" class="badge-pill">40+ muziekstijlen met 1 klik</span>
+            </div>
+          </div>
+          <button id="btnCloseGenres" class="modal-close-btn" aria-label="Sluit genre verkenner">✕</button>
+        </div>
+
+        <div class="genres-modal-toolbar">
+          <div class="genres-search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="genreModalSearch" placeholder="Zoek een genre (bijv. rock, country, gospel, new wave, prog rock, jazz)..." autocomplete="off" spellcheck="false">
+            <button id="btnClearGenreSearch" class="btn-icon-clear" style="display:none;" title="Zoekopdracht wissen">✕</button>
+          </div>
+          <button id="btnGenreResetAll" class="pill-btn sub-pill" title="Wis genre filter en toon alle zenders">🔄 Toon Alle Zenders</button>
+        </div>
+
+        <div class="modal-content genres-modal-content">
+          <div id="genresMatrixContainer" class="genres-matrix-container">
+            <!-- Dynamisch via app.js opgebouwd -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <span class="footer-note">Klik op een genre om direct de bijbehorende zenders live te laden</span>
+          <button id="btnCloseGenresDone" class="pill-btn primary-pill">Sluiten</button>
         </div>
       </div>
     </div>

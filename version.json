@@ -1,10 +1,12 @@
 {
   "app_name": "PeterVroon Radio",
-  "version": "1.1.0",
-  "build": 11,
-  "timestamp": "2026-11-17T08:29:43.234129+00:00",
-  "git_hash": "abee25e",
+  "version": "1.2.0",
+  "build": 12,
+  "timestamp": "2026-11-21T18:16:11.863878+00:00",
+  "git_hash": "a6cbab5",
   "features": [
+    "🎸 1-Klik Alle Genres Verkenner & Matrix (v1.2.0): Nieuwe knop 'Alle Genres 40+' direct naast de continent- en landkiezers én in de snelfilterbalk. Met 1 klik opent een overzichtelijke, donker-glazen Genre Verkenner met 11 hoofdgroepen en meer dan 40 muziekstijlen (waaronder Rock, Progressive & Symphonic Rock, New Wave & 80s Synthpop, Country & Americana, Gospel & Spiritualiteit, Jazz, Blues, Soul, Klassiek, Electronic & Trance, Pop en Nieuws). Inclusief realtime zoekveld en automatische live stream-ingest via Radio-Browser.",
+    "🛠️ Volledig Herstel van Loze Links & Automatische Stream Herstel / Fallback (v1.2.0): Alle ingebouwde radiostations zijn geverifieerd en voorzien van actieve, beveiligde HTTPS Icecast/Shoutcast streams. Onbereikbare of verlopen streams worden direct gemarkeerd met een '⚠️ Offline' badge. Bij hapering of uitval van een stream treedt de slimme watchdog in werking en schakelt de speler automatisch over naar een werkend alternatief station binnen hetzelfde genre.",
     "💾 Gegarandeerd Starten met Laatst Gekozen Station (v1.1.0): PeterVroon Radio start nu altijd direct met het radiostation dat u het laatst beluisterd heeft. Het laatste station staat direct bovenaan het overzicht gemarkeerd met een gouden '🕒 Laatst Geluisterd' en 'ACTIEF' badge, het bijbehorende continent wordt automatisch ingesteld, en de audio start direct vanzelf.",
     "📻 Altijd Starten met Voorkant (Zenderoverzicht) (v1.0.9): PeterVroon Radio start nu gegarandeerd met de 'Voorkant': het volledige, ruime zenderoverzicht met continenten, genres en live zenders. U ziet bij het opstarten niet langer de technische achterkant (speler, visualizer en studio). Inclusief 1-klik navigatieschakelaar (Voorkant / Achterkant / Split) en een zwevende mini-speler HUD onderin.",
     "🔊 Volledig Herstel Zenderlijst & Audio (v1.0.8): Oplossing voor het verdwijnen van de zenderlijst en uitvallen van geluid. Syntaxisfout geëlimineerd, alle curated stations en Aziatische streams geüpgraded naar 100% beveiligde HTTPS-verbindingen (waardoor mixed-content browserblokkades zijn opgeheven), en robuuste filterbeveiliging toegevoegd zodat stationslijsten altijd compleet en direct hoorbaar blijven.",

@@ -31,3 +31,10 @@ Deze richtlijnen gelden voor alle huidige en toekomstige aanpassingen en updates
 - **Laptops & Desktops ($\ge$ 1024px):** Standaard optimale side-by-side (split) indeling: links zenders & continentenkiezer, rechts actieve speler, visualizer en MP3-opnamestudio.
 - **iPads & Tablets (681px - 1023px):** Optimale verhoudingen in zowel portrait als landscape met flexibele knoppenbalk en touch-vriendelijke bediening.
 - **Smartphones ($\le$ 680px):** Schermvullende 1-tap weergave met veilige marges (`env(safe-area-inset-bottom)`).
+
+## 6. Mobile & Tablet Conventies: Single-Focus Intent ("Keep It Simple & Sweet - KISS")
+- **Single-focus intent:** Richt schermen in op 1 duidelijke taak per weergave, zonder overdaad aan desktop-vensters of verwarrende nevenmenu's.
+- **Directe Feedback op Knoppen/Acties (Click/Tick):** Bevestig elke klik/tap (bv. "✓ 42 stations gevonden in Europa", "Buffering...", status audiobron).
+- **Leesbaarheid & Makkelijke Scroll:** Knoppen en zenderinformatie altijd volledig leesbaar; soepel verticaal scrollen in zenderlijsten (`-webkit-overflow-scrolling: touch`).
+- **Datavalidatie & Bronvermelding:** Toon altijd de herkomst van de radiostream (codec, bitrate, serverlocatie en stream-URL status).
+
